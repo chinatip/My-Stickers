@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class MainActivity extends Activity {
     ImageButton cameraButton, stickerButton, shareButton, galleryButton;
     //ImageView imageView;
-    static private ArrayList<String> imageArr = new ArrayList<>();
+    static private ArrayList<File> imageArr = new ArrayList<>();
     static final int CAM_REQUEST = 1;
     static int countImage = 0;
 
@@ -35,7 +35,7 @@ public class MainActivity extends Activity {
                 camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
                 startActivityForResult(camera_intent, CAM_REQUEST);
                 addImageGallery(file);
-                imageArr.add(file.getAbsolutePath());
+                imageArr.add(file);
             }
         });
         galleryButton.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +71,7 @@ public class MainActivity extends Activity {
         countImage++;
     }
 
-    public static ArrayList<String> getImageArr() {
+    public static ArrayList<File> getImageArr() {
         return imageArr;
     }
 

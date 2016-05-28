@@ -1,10 +1,17 @@
 package com.example.asus.cameraapp;
 
+import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.GridView;
+import android.widget.ImageView;
 
 import com.example.asus.cameraapp.adapters.GridViewAdapter;
+
+import java.io.File;
+import java.util.ArrayList;
 
 public class GalleryActivity extends AppCompatActivity {
     private GridView gridView;
@@ -32,13 +39,13 @@ public class GalleryActivity extends AppCompatActivity {
 //        });
     }
 
-    //    private ArrayList<ImageItem> getData() {
-//        final ArrayList<ImageItem> imageItems = new ArrayList<>();
-//        TypedArray imgs = getResources().obtainTypedArray(R.array.image_ids);
-//        for (int i = 0; i < imgs.length(); i++) {
-//            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), imgs.getResourceId(i, -1));
-//            imageItems.add(new ImageItem(bitmap, "Image#" + i));
-//        }
-//        return imageItems;
-//    }
+        private ArrayList<ImageItem> getData() {
+            final ArrayList<ImageItem> imageItems = new ArrayList<>();
+            ArrayList<String> imgArr = MainActivity.getImageArr();
+            for (int i = 0; i < imgArr.size(); i++) {
+                Bitmap bitmap = BitmapFactory.decodeFile(imgArr.get(i));
+                imageItems.add(new ImageItem(bitmap, "Image#" + i));
+            }
+            return imageItems;
+    }
 }

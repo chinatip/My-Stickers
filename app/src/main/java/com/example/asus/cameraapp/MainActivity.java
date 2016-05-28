@@ -10,11 +10,12 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class MainActivity extends Activity {
     ImageButton cameraButton, stickerButton, shareButton, galleryButton;
     //ImageView imageView;
-
+    static private ArrayList<String> imageArr = new ArrayList<>();
     static final int CAM_REQUEST = 1;
     static int countImage = 0;
 
@@ -34,6 +35,7 @@ public class MainActivity extends Activity {
                 camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
                 startActivityForResult(camera_intent, CAM_REQUEST);
                 addImageGallery(file);
+                imageArr.add(file.getAbsolutePath());
             }
         });
         galleryButton.setOnClickListener(new View.OnClickListener() {
@@ -69,5 +71,8 @@ public class MainActivity extends Activity {
         countImage++;
     }
 
+    public static ArrayList<String> getImageArr() {
+        return imageArr;
+    }
 
 }

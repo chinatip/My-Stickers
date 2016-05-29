@@ -2,6 +2,7 @@ package com.example.asus.cameraapp;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -28,6 +29,11 @@ public class DetailsActivity extends AppCompatActivity {
         titleTextView.setText(title);
 
         ImageView imageView = (ImageView) findViewById(R.id.image);
-        imageView.setImageBitmap(BitmapFactory.decodeFile(path));
+        //using device file
+//        imageView.setImageBitmap(BitmapFactory.decodeFile(path));
+
+        //using drawable
+        imageView.setImageResource(Integer.parseInt(path));
+
     }
 }

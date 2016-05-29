@@ -3,6 +3,7 @@ package com.example.asus.cameraapp.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,7 +51,10 @@ public class GridViewAdapter extends ArrayAdapter {
 
         ImageItem item = (ImageItem) data.get(position);
         holder.imageTitle.setText(item.getTitle());
-        holder.image.setImageBitmap(BitmapFactory.decodeFile(item.getPath()));
+        //using device file
+//        holder.image.setImageBitmap(BitmapFactory.decodeFile(item.getPath()));
+        //using drawable gallery
+        holder.image.setImageResource(Integer.parseInt(item.getPath()));
         return row;
     }
 

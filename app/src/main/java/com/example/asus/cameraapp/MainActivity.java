@@ -88,7 +88,7 @@ public class MainActivity extends Activity {
 //            }
 //        }
 //        return imgCount;
-        return 3;
+        return 1;
     }
 
 }

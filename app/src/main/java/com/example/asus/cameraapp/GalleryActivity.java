@@ -61,11 +61,9 @@ public class GalleryActivity extends AppCompatActivity {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 ImageItem item = (ImageItem) parent.getItemAtPosition(position);
-                //Create intent
                 Intent intent = new Intent(GalleryActivity.this, DetailsActivity.class);
                 intent.putExtra("title", item.getTitle());
                 intent.putExtra("imagePath", item.getPath());
-                //Start details activity
                 startActivity(intent);
 
 
@@ -86,9 +84,19 @@ public class GalleryActivity extends AppCompatActivity {
 
     private ArrayList<ImageItem> getData() {
         final ArrayList<ImageItem> imageItems = new ArrayList<>();
-        for (int i = 0; i < MainActivity.getImgCount(); i++) {
-            imageItems.add(new ImageItem("Image#" + i,"sdcard/camera_app/"+i+".jpg"));
-        }
+        //using device file
+//        for (int i = 0; i < MainActivity.getImgCount(); i++) {
+//            imageItems.add(new ImageItem("Image#" + i,"sdcard/camera_app/"+i+".jpg"));
+//        }
+        //using drawable file
+
+            imageItems.add(new ImageItem("Image#" + 1,R.drawable.s1+""));
+            imageItems.add(new ImageItem("Image#" + 2,R.drawable.s2+""));
+            imageItems.add(new ImageItem("Image#" + 3,R.drawable.s3+""));
+            imageItems.add(new ImageItem("Image#" + 4,R.drawable.s4+""));
+            imageItems.add(new ImageItem("Image#" + 5,R.drawable.s5+""));
+            imageItems.add(new ImageItem("Image#" + 6,R.drawable.s6+""));
+
 
         return imageItems;
     }

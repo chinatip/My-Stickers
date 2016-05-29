@@ -65,7 +65,6 @@ public class GalleryActivity extends AppCompatActivity {
                 Intent intent = new Intent(GalleryActivity.this, DetailsActivity.class);
                 intent.putExtra("title", item.getTitle());
                 intent.putExtra("imagePath", item.getPath());
-                Log.e("path : ", item.getPath());
                 //Start details activity
                 startActivity(intent);
 
@@ -87,24 +86,22 @@ public class GalleryActivity extends AppCompatActivity {
 
     private ArrayList<ImageItem> getData() {
         final ArrayList<ImageItem> imageItems = new ArrayList<>();
-        ArrayList<String> imgArr = MainActivity.getImageArr();
-        for (int i = 0; i < imgArr.size(); i++) {
-            imageItems.add(new ImageItem("Image#" + i,imgArr.get(i)));
-            Log.e("path : ", imgArr.get(i));
+        for (int i = 0; i < MainActivity.getImgCount(); i++) {
+            imageItems.add(new ImageItem("Image#" + i,"sdcard/camera_app/"+i+".jpg"));
         }
 
         return imageItems;
     }
 
-    public static Bitmap scaleDownBitmap(Bitmap photo, int newHeight, Context context) {
-
-        final float densityMultiplier = context.getResources().getDisplayMetrics().density;
-
-        int h= (int) (newHeight*densityMultiplier);
-        int w= (int) (h * photo.getWidth()/((double) photo.getHeight()));
-
-        photo=Bitmap.createScaledBitmap(photo, w, h, true);
-
-        return photo;
-    }
+//    public static Bitmap scaleDownBitmap(Bitmap photo, int newHeight, Context context) {
+//
+//        final float densityMultiplier = context.getResources().getDisplayMetrics().density;
+//
+//        int h= (int) (newHeight*densityMultiplier);
+//        int w= (int) (h * photo.getWidth()/((double) photo.getHeight()));
+//
+//        photo=Bitmap.createScaledBitmap(photo, w, h, true);
+//
+//        return photo;
+//    }
 }

@@ -17,10 +17,7 @@ public class MainActivity extends Activity {
     ImageButton cameraButton, stickerButton, shareButton, galleryButton;
     //ImageView imageView;
     ImageView imageView2;
-    static private ArrayList<String> imageArr = new ArrayList<>();
-    static private ArrayList<Uri> fileArr = new ArrayList<>();
     static final int CAM_REQUEST = 1;
-    static int countImage = 0;
 
     protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
@@ -41,8 +38,6 @@ public class MainActivity extends Activity {
                 camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
                 startActivityForResult(camera_intent, CAM_REQUEST);
                 addImageGallery(file);
-                imageArr.add(file.getAbsolutePath());
-                fileArr.add(Uri.fromFile(file));
             }
         });
         galleryButton.setOnClickListener(new View.OnClickListener() {
@@ -60,7 +55,7 @@ public class MainActivity extends Activity {
         if(!folder.exists()) {
             folder.mkdir();
         }
-        File image_file = new File(folder,"cam_image"+countImage+".jpg");
+        File image_file = new File(folder,getImgCount()+".jpg");
         return image_file;
     }
 
@@ -70,23 +65,30 @@ public class MainActivity extends Activity {
 //        //imageView.setImageDrawable(Drawable.createFromPath(path));
 //    }
 
-
     private void addImageGallery( File file ) {
         ContentValues values = new ContentValues();
         values.put(MediaStore.Images.Media.DATA, file.getAbsolutePath());
         values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
         getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-        countImage++;
 //delete
 //        sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://" + Environment.getExternalStorageDirectory())));
     }
 
-    public static ArrayList<String> getImageArr() {
-        return imageArr;
-    }
-
-    public static ArrayList<Uri> getFileArr() {
-        return fileArr;
+    static public int getImgCount() {
+//        File folder = new File("sdcard/camera_app");
+//        int imgCount = 0;
+//        if(!folder.exists()) {
+//            folder.mkdir();
+//        }
+//        else {
+//            File file = new File(folder,imgCount+".jpg");
+//            while(file.exists()) {
+//                imgCount++;
+//                file = new File(folder,imgCount+".jpg");
+//            }
+//        }
+//        return imgCount;
+        return 3;
     }
 
 }

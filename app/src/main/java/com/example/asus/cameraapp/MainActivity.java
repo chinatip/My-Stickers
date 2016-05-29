@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -15,7 +16,9 @@ import java.util.ArrayList;
 public class MainActivity extends Activity {
     ImageButton cameraButton, stickerButton, shareButton, galleryButton;
     //ImageView imageView;
-    static private ArrayList<File> imageArr = new ArrayList<>();
+    ImageView imageView2;
+    static private ArrayList<String> imageArr = new ArrayList<>();
+    static private ArrayList<Uri> fileArr = new ArrayList<>();
     static final int CAM_REQUEST = 1;
     static int countImage = 0;
 
@@ -27,6 +30,9 @@ public class MainActivity extends Activity {
         galleryButton = (ImageButton) findViewById(R.id.galleryButton);
         stickerButton = (ImageButton) findViewById(R.id.stickerButton);
         //imageView = (ImageView) findViewById(R.id.image_view);
+        imageView2 = (ImageView) findViewById(R.id.imageView2);
+//        if(imageArr.size()>=1)
+//        imageView2.setImageURI(Uri.fromFile(new File(imageArr.get(0))));
         cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -35,7 +41,8 @@ public class MainActivity extends Activity {
                 camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
                 startActivityForResult(camera_intent, CAM_REQUEST);
                 addImageGallery(file);
-                imageArr.add(file);
+                imageArr.add(file.getAbsolutePath());
+                fileArr.add(Uri.fromFile(file));
             }
         });
         galleryButton.setOnClickListener(new View.OnClickListener() {
@@ -57,11 +64,12 @@ public class MainActivity extends Activity {
         return image_file;
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        String path = "sdcard/camera_app/cam_image"+countImage+".jpg";
-        //imageView.setImageDrawable(Drawable.createFromPath(path));
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        String path = "sdcard/camera_app/cam_image"+countImage+".jpg";
+//        //imageView.setImageDrawable(Drawable.createFromPath(path));
+//    }
+
 
     private void addImageGallery( File file ) {
         ContentValues values = new ContentValues();
@@ -69,10 +77,16 @@ public class MainActivity extends Activity {
         values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
         getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
         countImage++;
+//delete
+//        sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://" + Environment.getExternalStorageDirectory())));
     }
 
-    public static ArrayList<File> getImageArr() {
+    public static ArrayList<String> getImageArr() {
         return imageArr;
+    }
+
+    public static ArrayList<Uri> getFileArr() {
+        return fileArr;
     }
 
 }

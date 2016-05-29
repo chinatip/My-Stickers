@@ -1,26 +1,22 @@
 package com.example.asus.cameraapp;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 
 /**
  * Created by Asus on 28/5/2559.
  */
 public class ImageItem {
-    private Bitmap image;
-    private String title;
+    private String title, path;
 
-    public ImageItem(Bitmap image, String title) {
+    public ImageItem( String title, String path) {
         super();
-        this.image = image;
         this.title = title;
+        this.path = path;
     }
 
-    public Bitmap getImage() {
-        return image;
-    }
-
-    public void setImage(Bitmap image) {
-        this.image = image;
+    public String getPath() {
+        return path;
     }
 
     public String getTitle() {

@@ -2,6 +2,8 @@ package com.example.asus.cameraapp.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import com.example.asus.cameraapp.ImageItem;
 import com.example.asus.cameraapp.R;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -47,7 +50,7 @@ public class GridViewAdapter extends ArrayAdapter {
 
         ImageItem item = (ImageItem) data.get(position);
         holder.imageTitle.setText(item.getTitle());
-        holder.image.setImageBitmap(item.getImage());
+        holder.image.setImageBitmap(BitmapFactory.decodeFile(item.getPath()));
         return row;
     }
 

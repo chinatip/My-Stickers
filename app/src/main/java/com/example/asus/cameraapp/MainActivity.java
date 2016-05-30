@@ -1,94 +1,139 @@
 package com.example.asus.cameraapp;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
-import android.net.Uri;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.util.ArrayList;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class MainActivity extends Activity {
-    ImageButton cameraButton, stickerButton, shareButton, galleryButton;
-    //ImageView imageView;
-    ImageView imageView2;
-    static final int CAM_REQUEST = 1;
+
+    private ImageView logoImage;
+    private ImageButton cameraButton, galleryButton;
+
+    private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
+    private String userChoosenTask;
+
+    boolean result=Utility.checkPermission(MainActivity.this);
 
     protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         setContentView(R.layout.activity_main);
+
+        logoImage = (ImageView) findViewById(R.id.img_logo);
         cameraButton = (ImageButton) findViewById(R.id.cameraButton);
-        shareButton = (ImageButton) findViewById(R.id.shareButton);
         galleryButton = (ImageButton) findViewById(R.id.galleryButton);
-        stickerButton = (ImageButton) findViewById(R.id.stickerButton);
-        //imageView = (ImageView) findViewById(R.id.image_view);
-        imageView2 = (ImageView) findViewById(R.id.imageView2);
-//        if(imageArr.size()>=1)
-//        imageView2.setImageURI(Uri.fromFile(new File(imageArr.get(0))));
+
+        initComponents();
+    }
+
+    private void initComponents() {
+
+        logoImage.setImageResource(R.drawable.img_logo);
+
         cameraButton.setOnClickListener(new View.OnClickListener() {
-            @Override
             public void onClick(View v) {
-                Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                File file = getFile();
-                camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
-                startActivityForResult(camera_intent, CAM_REQUEST);
-                addImageGallery(file);
+                userChoosenTask ="Take Photo";
+                if(result)
+                    cameraIntent();
             }
         });
+
         galleryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, GalleryActivity.class);
-                startActivity(intent);
+                userChoosenTask = "Choose from Library";
+                if (result)
+                    galleryIntent();
             }
         });
-
     }
 
-    private File getFile() {
-        File folder = new File("sdcard/camera_app");
-        if(!folder.exists()) {
-            folder.mkdir();
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case Utility.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if(userChoosenTask.equals("Take Photo"))
+                        cameraIntent();
+                    else if(userChoosenTask.equals("Choose from Library"))
+                        galleryIntent();
+                }
+                break;
         }
-        File image_file = new File(folder,getImgCount()+".jpg");
-        return image_file;
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        String path = "sdcard/camera_app/cam_image"+countImage+".jpg";
-//        //imageView.setImageDrawable(Drawable.createFromPath(path));
-//    }
-
-    private void addImageGallery( File file ) {
-        ContentValues values = new ContentValues();
-        values.put(MediaStore.Images.Media.DATA, file.getAbsolutePath());
-        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-        getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-//delete
-//        sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://" + Environment.getExternalStorageDirectory())));
+    private void galleryIntent() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select File"), SELECT_FILE);
     }
 
-    static public int getImgCount() {
-//        File folder = new File("sdcard/camera_app");
-//        int imgCount = 0;
-//        if(!folder.exists()) {
-//            folder.mkdir();
-//        }
-//        else {
-//            File file = new File(folder,imgCount+".jpg");
-//            while(file.exists()) {
-//                imgCount++;
-//                file = new File(folder,imgCount+".jpg");
-//            }
-//        }
-//        return imgCount;
-        return 1;
+    private void cameraIntent() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, REQUEST_CAMERA);
     }
 
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == SELECT_FILE)
+                onSelectFromGalleryResult(data);
+            else if (requestCode == REQUEST_CAMERA)
+                onCaptureImageResult(data);
+        }
+    }
+
+    private void onCaptureImageResult(Intent data) {
+        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+
+        File destination = new File(Environment.getExternalStorageDirectory(),
+                System.currentTimeMillis() + ".jpg");
+
+        FileOutputStream fo;
+
+        try {
+            destination.createNewFile();
+            fo = new FileOutputStream(destination);
+            fo.write(bytes.toByteArray());
+            fo.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Intent intent = new Intent(this, EditPhotoActivity.class);
+        intent.putExtra("BitmapImage", thumbnail);
+        startActivity(intent);
+    }
+
+    private void onSelectFromGalleryResult(Intent data) {
+        Bitmap bm=null;
+        if (data != null) {
+            try {
+                bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        Intent intent = new Intent(this, EditPhotoActivity.class);
+        intent.putExtra("BitmapImage", bm);
+        startActivity(intent);
+    }
 }

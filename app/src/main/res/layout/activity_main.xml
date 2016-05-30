@@ -9,62 +9,45 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.asus.cameraapp.MainActivity"
     android:orientation="vertical"
-    >
+    android:background="#f4c45b">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/img_logo"
+        android:src="@drawable/img_logo"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/cameraButton"
-        android:src="@android:drawable/ic_menu_camera"
-        android:layout_centerVertical="true"
+        android:src="@drawable/btn_camera"
+        android:visibility="visible"
+        android:adjustViewBounds="false"
+        android:baselineAlignBottom="false"
+        android:clickable="false"
+        android:contextClickable="false"
+        android:cropToPadding="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:longClickable="false"
+        android:background="#f4c45b"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="101dp"
-        android:layout_marginStart="101dp" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView"
-        android:layout_marginBottom="53dp"
-        android:src="@drawable/logo"
-        android:layout_above="@+id/cameraButton"
-        android:layout_centerHorizontal="true" />
+        android:layout_marginLeft="35dp"
+        android:layout_marginBottom="30dp" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/galleryButton"
-        android:src="@android:drawable/ic_menu_gallery"
-        android:layout_marginLeft="47dp"
-        android:layout_marginStart="47dp"
-        android:layout_alignTop="@+id/cameraButton"
-        android:layout_toRightOf="@+id/cameraButton"
-        android:layout_toEndOf="@+id/cameraButton" />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/shareButton"
-        android:src="@android:drawable/ic_menu_share"
-        android:layout_below="@+id/galleryButton"
-        android:layout_alignLeft="@+id/galleryButton"
-        android:layout_alignStart="@+id/galleryButton" />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/stickerButton"
-        android:src="@android:drawable/star_big_off"
-        android:layout_below="@+id/cameraButton"
-        android:layout_alignLeft="@+id/cameraButton"
-        android:layout_alignStart="@+id/cameraButton" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView2"
-        android:layout_below="@+id/shareButton"
-        android:layout_centerHorizontal="true" />
+        android:src="@drawable/btn_gallery"
+        android:background="#f4c45b"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="30dp"
+        android:layout_marginRight="35dp" />
 
 </RelativeLayout>

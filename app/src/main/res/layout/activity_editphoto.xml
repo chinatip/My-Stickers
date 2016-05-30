@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context=".EditPhotoActivity"
+    android:background="#f4c45b">
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/img_image"
+        android:src="@android:drawable/bottom_bar"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentStart="false"
+        android:layout_marginBottom="90dp"
+        android:layout_marginTop="150dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_crop"
+        android:src="@drawable/btn_crop"
+        android:background="#f4c45b"
+        android:layout_alignTop="@+id/btn_rotate"
+        android:layout_toRightOf="@+id/btn_rotate"
+        android:layout_toEndOf="@+id/btn_rotate"
+        android:layout_marginLeft="25dp"
+        android:layout_marginBottom="40dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_crop_back"
+        android:src="@drawable/btn_back"
+        android:background="#f4c45b"
+        android:layout_alignTop="@+id/btn_crop"
+        android:layout_toStartOf="@+id/btn_done"
+        android:layout_marginLeft="25dp"
+        android:layout_toRightOf="@+id/btn_crop"
+        android:layout_marginRight="25dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_rotate"
+        android:src="@drawable/btn_rotate"
+        android:background="#f4c45b"
+        android:layout_marginLeft="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="false"
+        android:layout_marginBottom="40dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_done"
+        android:src="@drawable/btn_done"
+        android:background="#f4c45b"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="40dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txt_crop"
+        android:src="@drawable/txt_crop"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp" />
+
+</RelativeLayout>

@@ -54,7 +54,7 @@ public class EditPhotoActivity extends AppCompatActivity {
         cropButton = (ImageButton) findViewById(R.id.btn_crop);
         cropButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                finish();
+//                finish();
             }
         });
 

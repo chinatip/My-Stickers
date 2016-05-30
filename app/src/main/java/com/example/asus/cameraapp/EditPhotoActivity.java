@@ -2,12 +2,12 @@ package com.example.asus.cameraapp;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.graphics.Matrix;
 
 public class EditPhotoActivity extends AppCompatActivity {
 
@@ -17,6 +17,7 @@ public class EditPhotoActivity extends AppCompatActivity {
     private ImageButton cropButton;
     private ImageButton backButton;
     private ImageButton doneButton;
+    private Bitmap bitmap,temp;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +32,8 @@ public class EditPhotoActivity extends AppCompatActivity {
         cropText.setImageResource(R.drawable.txt_crop);
 
         Intent intent = getIntent();
-        Bitmap bitmap = (Bitmap) intent.getParcelableExtra("BitmapImage");
+        bitmap = (Bitmap) intent.getParcelableExtra("BitmapImage");
+        temp = bitmap;
 
         image = (ImageView) findViewById(R.id.img_image);
         image.setImageBitmap(bitmap);
@@ -39,14 +41,13 @@ public class EditPhotoActivity extends AppCompatActivity {
         rotateButton = (ImageButton) findViewById(R.id.btn_rotate);
         rotateButton.setOnClickListener(new View.OnClickListener() {
 
-            Intent intent = getIntent();
-            Bitmap bitmap = (Bitmap) intent.getParcelableExtra("BitmapImage");
             Matrix matrix = new Matrix();
 
             public void onClick(View view) {
                 matrix.postRotate(-90);
                 Bitmap rotated = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
                 image.setImageBitmap(rotated);
+                temp = rotated;
             }
         });
 
@@ -60,12 +61,11 @@ public class EditPhotoActivity extends AppCompatActivity {
         backButton = (ImageButton) findViewById(R.id.btn_crop_back);
         backButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent intent = getIntent();
-                Bitmap bitmap = (Bitmap) intent.getParcelableExtra("BitmapImage");
                 Matrix matrix = new Matrix();
                 Bitmap rotated = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(),
                         matrix, true);
                 image.setImageBitmap(rotated);
+                temp = rotated;
             }
         });
 
@@ -73,6 +73,7 @@ public class EditPhotoActivity extends AppCompatActivity {
         doneButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent intent = new Intent(EditPhotoActivity.this, AddStickerActivity.class);
+                intent.putExtra("bitmap",temp);
                 startActivity(intent);
             }
         });

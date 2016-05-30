@@ -28,8 +28,11 @@ public class AddStickerActivity extends AppCompatActivity {
     }
 
     private void initComponents() {
+
         image = (ImageView)findViewById(R.id.img_image);
-        image.setImageResource(R.drawable.monkey);
+        Intent intent = getIntent();
+        Bitmap bitmap = getIntent().getParcelableExtra("bitmap");
+        image.setImageBitmap(bitmap);
 
         homeButton = (ImageButton) findViewById(R.id.btn_home);
 

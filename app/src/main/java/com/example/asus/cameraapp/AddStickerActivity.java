@@ -7,30 +7,70 @@ import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 public class AddStickerActivity extends AppCompatActivity {
 
     private ImageView image;
+    public static ImageView sticker1;
     private ImageButton homeButton;
     private ImageButton addButton;
     private ImageButton saveButton;
     private ImageButton shareButton;
     private ImageButton reverseButton;
     private ImageButton infoButton;
+    private ViewGroup mRrootLayout;
+    private int _xDelta;
+    private int _yDelta;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addsticker);
+
+        mRrootLayout = (ViewGroup) findViewById(R.id.root);
+        sticker1 = (ImageView) findViewById(R.id.sticker1);
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(150, 150);
+        sticker1.setLayoutParams(layoutParams);
+        sticker1.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View view, MotionEvent event) {
+                final int X = (int) event.getRawX();
+                final int Y = (int) event.getRawY();
+                switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                    case MotionEvent.ACTION_DOWN:
+                        RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
+                        _xDelta = X - lParams.leftMargin;
+                        _yDelta = Y - lParams.topMargin;
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        break;
+                    case MotionEvent.ACTION_POINTER_DOWN:
+                        break;
+                    case MotionEvent.ACTION_POINTER_UP:
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view
+                                .getLayoutParams();
+                        layoutParams.leftMargin = X - _xDelta;
+                        layoutParams.topMargin = Y - _yDelta;
+                        layoutParams.rightMargin = -250;
+                        layoutParams.bottomMargin = -250;
+                        view.setLayoutParams(layoutParams);
+                        break;
+                }
+                mRrootLayout.invalidate();
+                return true;
+            }
+        });
         initComponents();
     }
 
     private void initComponents() {
-
         image = (ImageView)findViewById(R.id.img_image);
-        Intent intent = getIntent();
         Bitmap bitmap = getIntent().getParcelableExtra("bitmap");
         image.setImageBitmap(bitmap);
 
@@ -85,4 +125,10 @@ public class AddStickerActivity extends AppCompatActivity {
             }
         });
     }
+
+    public static void setSticker(int rsc) {
+        sticker1.setImageResource(rsc);
+    }
+
+
 }

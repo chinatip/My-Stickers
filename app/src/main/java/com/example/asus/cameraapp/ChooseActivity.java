@@ -51,86 +51,103 @@ public class ChooseActivity extends AppCompatActivity {
     private void initComponents(){
         skButton01.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                AddStickerActivity.setSticker(R.drawable.stk01);
                 finish();
             }
         });
         skButton02.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                AddStickerActivity.setSticker(R.drawable.stk02);
                 finish();
             }
         });
         skButton03.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                AddStickerActivity.setSticker(R.drawable.stk03);
                 finish();
             }
         });
         skButton04.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                AddStickerActivity.setSticker(R.drawable.stk04);
                 finish();
             }
         });
         skButton05.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                AddStickerActivity.setSticker(R.drawable.stk05);
                 finish();
             }
         });
         skButton06.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                AddStickerActivity.setSticker(R.drawable.stk06);
                 finish();
             }
         });
         skButton07.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                AddStickerActivity.setSticker(R.drawable.stk07);
                 finish();
             }
         });
         skButton08.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                AddStickerActivity.setSticker(R.drawable.stk08);
                 finish();
             }
         });
         skButton09.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                AddStickerActivity.setSticker(R.drawable.stk09);
                 finish();
             }
         });
         skButton10.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                AddStickerActivity.setSticker(R.drawable.stk10);
                 finish();
             }
         });
         skButton11.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                AddStickerActivity.setSticker(R.drawable.stk11);
                 finish();
             }
         });
         skButton12.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                AddStickerActivity.setSticker(R.drawable.stk12);
                 finish();
             }
         });
         skButton13.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                AddStickerActivity.setSticker(R.drawable.stk13);
                 finish();
             }
         });
         skButton14.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                AddStickerActivity.setSticker(R.drawable.stk14);
                 finish();
             }
         });
         skButton15.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                AddStickerActivity.setSticker(R.drawable.stk15);
                 finish();
             }
         });
         skButton16.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                AddStickerActivity.setSticker(R.drawable.stk16);
                 finish();
             }
         });
         skButton17.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                AddStickerActivity.setSticker(R.drawable.stk17);
                 finish();
             }
         });

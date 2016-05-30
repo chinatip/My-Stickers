@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     tools:context=".Activities.MainActivity"
@@ -84,5 +85,14 @@
         android:layout_toRightOf="@+id/btn_addS_back"
         android:layout_marginLeft="9dp"
         android:layout_marginBottom="20dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sticker1"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/btn_addS_back"
+        android:layout_alignEnd="@+id/btn_addS_back"
+        android:layout_marginTop="165dp" />
 
 </RelativeLayout>

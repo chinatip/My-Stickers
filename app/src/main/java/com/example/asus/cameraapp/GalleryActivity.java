@@ -24,6 +24,7 @@ import java.util.ArrayList;
 public class GalleryActivity extends AppCompatActivity {
     private GridView gridView;
     private GridViewAdapter gridAdapter;
+    static private ArrayList<ImageItem> imageItems = new ArrayList<>();
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
@@ -63,6 +64,7 @@ public class GalleryActivity extends AppCompatActivity {
                 ImageItem item = (ImageItem) parent.getItemAtPosition(position);
                 Intent intent = new Intent(GalleryActivity.this, DetailsActivity.class);
                 intent.putExtra("title", item.getTitle());
+                intent.putExtra("index", position);
                 intent.putExtra("imagePath", item.getPath());
                 startActivity(intent);
 
@@ -83,7 +85,7 @@ public class GalleryActivity extends AppCompatActivity {
     }
 
     private ArrayList<ImageItem> getData() {
-        final ArrayList<ImageItem> imageItems = new ArrayList<>();
+        imageItems = new ArrayList<>();
         //using device file
 //        for (int i = 0; i < MainActivity.getImgCount(); i++) {
 //            imageItems.add(new ImageItem("Image#" + i,"sdcard/camera_app/"+i+".jpg"));
@@ -112,4 +114,6 @@ public class GalleryActivity extends AppCompatActivity {
 //
 //        return photo;
 //    }
+
+    public static ArrayList<ImageItem> getImageItems() { return imageItems; }
 }

@@ -18,7 +18,8 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/title">
+        android:layout_below="@+id/title"
+        android:id="@+id/frameLayout">
 
         <ImageView
             android:id="@+id/image"
@@ -27,4 +28,24 @@
             android:layout_gravity="center"
             android:scaleType="fitCenter" />
     </FrameLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/stickerButton"
+        android:src="@drawable/sticker_button"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/shareButton"
+        android:layout_toStartOf="@+id/shareButton" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/shareButton"
+        android:src="@drawable/share_button"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="10dp" />
+
 </RelativeLayout>

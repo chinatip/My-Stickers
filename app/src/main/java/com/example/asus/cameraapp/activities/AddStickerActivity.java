@@ -5,8 +5,12 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,9 +27,8 @@ import com.example.asus.cameraapp.stickers.StickerView;
 import java.util.ArrayList;
 
 public class AddStickerActivity extends AppCompatActivity {
-    private Bitmap bitmap;
+    private Bitmap bitmap, temp;
     private static ImageView image;
-    private static ArrayList<Bitmap> stickers = new ArrayList<>();
     public static ImageView sticker1;
     private ImageButton homeButton;
     private ImageButton addButton;
@@ -43,6 +46,7 @@ public class AddStickerActivity extends AppCompatActivity {
 
         resources = getResources();
         bitmap = getIntent().getParcelableExtra("bitmap");
+        temp = bitmap;
         image = (ImageView)findViewById(R.id.img_image);
 
         stickerView = new StickerView(this);
@@ -79,7 +83,7 @@ public class AddStickerActivity extends AppCompatActivity {
     }
 
     private void initComponents() {
-        image.setImageBitmap(bitmap);
+        image.setImageBitmap(temp);
 
         homeButton = (ImageButton) findViewById(R.id.btn_home);
 
@@ -101,16 +105,16 @@ public class AddStickerActivity extends AppCompatActivity {
         saveButton = (ImageButton) findViewById(R.id.btn_save);
         saveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //fix
-                bitmap = mergeToPin(bitmap, stickers.get(0));
-                image.setImageBitmap(bitmap);
+                Bitmap sticker = stickerView.getBitmap();
+                temp = mergeBitmap(temp, sticker);
+                image.setImageBitmap(temp);
 
 //                image.buildDrawingCache();
 //                Bitmap bmap = image.getDrawingCache();
 //                image.setImageBitmap(bmap);
 
-                Save savefile = new Save();
-                savefile.SaveImage(getApplicationContext(), bitmap);
+                Save saveFile = new Save();
+                saveFile.SaveImage(getApplicationContext(), temp);
             }
         });
 
@@ -124,11 +128,11 @@ public class AddStickerActivity extends AppCompatActivity {
         reverseButton = (ImageButton) findViewById(R.id.btn_addS_back);
         reverseButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Bitmap myImg = getIntent().getParcelableExtra("bitmap");
-//                Matrix matrix = new Matrix();
-//                Bitmap rotated = Bitmap.createBitmap(myImg, 0, 0, myImg.getWidth(), myImg.getHeight(),
-//                        matrix, true);
-                image.setImageBitmap(myImg);
+                Matrix matrix = new Matrix();
+                Bitmap rotated = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(),
+                        matrix, true);
+                image.setImageBitmap(rotated);
+                temp = rotated;
                 sticker1.setImageBitmap(null);
             }
         });
@@ -148,6 +152,8 @@ public class AddStickerActivity extends AppCompatActivity {
         int widthFront = front.getWidth();
         float move = (widthBack - widthFront) / 2;
         canvas.drawBitmap(back, 0f, 0f, null);
+        result = Bitmap.createBitmap(front.getWidth(), front.getHeight(), front.getConfig());
+        canvas.setBitmap(result);
         canvas.drawBitmap(front, 0, 0, null);
         return result;
     }
@@ -185,6 +191,34 @@ public class AddStickerActivity extends AppCompatActivity {
 //
 //        return cs;
 //    }
+
+    public Bitmap mergeBitmap(Bitmap back, Bitmap front){
+        Bitmap bitmap = null;
+        try {
+
+            bitmap = Bitmap.createBitmap(500, 500, Bitmap.Config.ARGB_8888);
+            Canvas c = new Canvas(bitmap);
+            Resources res = resources;
+
+            Drawable drawable1 = new BitmapDrawable(back);
+            Drawable drawable2 = new BitmapDrawable(front);
+
+            int backLeftRight = (c.getWidth() - back.getWidth())/2;
+            int backUpDown = (c.getHeight() - back.getHeight())/2;
+            Log.e("left-right",back.getScaledWidth(c)/2 + back.getWidth()/2+"");
+            Log.e("up-down", back.getScaledHeight(c) / 2 + back.getHeight() / 2 + "");
+
+
+            drawable1.setBounds(100, 100, 400, 400);
+            drawable2.setBounds(150, 150, 350, 350);
+            drawable1.draw(c);
+            drawable2.draw(c);
+
+
+        } catch (Exception e) {
+        }
+        return bitmap;
+    }
 
     public static void setSticker(int id) {
         Bitmap StickerBitmap = BitmapFactory.decodeResource(resources, id);

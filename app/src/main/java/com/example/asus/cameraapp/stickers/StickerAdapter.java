@@ -2,6 +2,7 @@ package com.example.asus.cameraapp.stickers;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,14 +12,17 @@ import android.widget.ImageView;
 
 import com.example.asus.cameraapp.R;
 import com.example.asus.cameraapp.activities.AddStickerActivity;
+import com.example.asus.cameraapp.activities.ChooseActivity;
 
 public class StickerAdapter extends BaseAdapter {
     private ArrayList<StickerRow> list;
     private LayoutInflater mInflater;
+    private Activity activity;
 
-    public StickerAdapter(Context context, ArrayList<StickerRow> list) {
+    public StickerAdapter(Context context, ArrayList<StickerRow> list,Activity activity) {
         this.list = list;
         this.mInflater = LayoutInflater.from(context);
+        this.activity = activity;
     }
 
     @Override
@@ -50,7 +54,7 @@ public class StickerAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        
+
         final int s1 = list.get(position).getSticker1();
         final int s2 = list.get(position).getSticker2();
         final int s3 = list.get(position).getSticker3();
@@ -65,24 +69,28 @@ public class StickerAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 AddStickerActivity.setSticker(s1);
+                activity.finish();
             }
         });
         holder.iv2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AddStickerActivity.setSticker(s2);
+                activity.finish();
             }
         });
         holder.iv3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AddStickerActivity.setSticker(s3);
+                activity.finish();
             }
         });
         holder.iv4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AddStickerActivity.setSticker(s4);
+                activity.finish();
             }
         });
         return convertView;

@@ -1,5 +1,6 @@
 package com.example.asus.cameraapp.activities;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -22,7 +23,7 @@ public class ChooseActivity extends AppCompatActivity {
         stickerGallery = (ListView) findViewById(R.id.lvdata);
         rows = new ArrayList<>();
         initComponents();
-        stickerGallery.setAdapter(new StickerAdapter(getBaseContext(), rows));
+        stickerGallery.setAdapter(new StickerAdapter(getBaseContext(), rows,this));
     }
     private void initComponents(){
         StickerRow row1 = new StickerRow (R.drawable.stk01,R.drawable.stk02,R.drawable.stk03,R.drawable.stk04);
@@ -33,13 +34,7 @@ public class ChooseActivity extends AppCompatActivity {
         rows.add(row2);
         rows.add(row3);
         rows.add(row4);
-
-        stickerGallery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                
-            }
-        });
     }
+
 
 }

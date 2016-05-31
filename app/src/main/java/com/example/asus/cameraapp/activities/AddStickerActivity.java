@@ -1,32 +1,30 @@
-package com.example.asus.cameraapp;
+package com.example.asus.cameraapp.activities;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Matrix;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import com.example.asus.cameraapp.models.InfoPopUp;
+import com.example.asus.cameraapp.R;
+import com.example.asus.cameraapp.Save;
+import com.example.asus.cameraapp.stickers.StickerView;
+
 import java.util.ArrayList;
 
 public class AddStickerActivity extends AppCompatActivity {
     private Bitmap bitmap;
-    private ImageView image;
+    private static ImageView image;
     private static ArrayList<Bitmap> stickers = new ArrayList<>();
     public static ImageView sticker1;
     private ImageButton homeButton;
@@ -35,24 +33,25 @@ public class AddStickerActivity extends AppCompatActivity {
     private ImageButton shareButton;
     private ImageButton reverseButton;
     private ImageButton infoButton;
+    private static Resources resources;
+    private static StickerView stickerView;
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addsticker);
 
+        resources = getResources();
         bitmap = getIntent().getParcelableExtra("bitmap");
         image = (ImageView)findViewById(R.id.img_image);
 
-        StickerView stickerView = new StickerView(this);
+        stickerView = new StickerView(this);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
         params.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.img_image);
         params.addRule(RelativeLayout.ALIGN_TOP, R.id.img_image);
         ((ViewGroup)image.getParent()).addView(stickerView, params);
-        Bitmap StickerBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-        stickerView.setWaterMark(StickerBitmap);
 
         initComponents();
     }
@@ -142,13 +141,6 @@ public class AddStickerActivity extends AppCompatActivity {
         });
     }
 
-    public static void setSticker(Bitmap bitmap) {
-        sticker1.setImageBitmap(bitmap);
-        if(stickers.size()==0)
-        stickers.add(bitmap);
-        else stickers.set(0, bitmap);
-    }
-
     public static Bitmap mergeToPin(Bitmap back, Bitmap front) {
         Bitmap result = Bitmap.createBitmap(back.getWidth(), back.getHeight(), back.getConfig());
         Canvas canvas = new Canvas(result);
@@ -193,5 +185,10 @@ public class AddStickerActivity extends AppCompatActivity {
 //
 //        return cs;
 //    }
+
+    public static void setSticker(int id) {
+        Bitmap StickerBitmap = BitmapFactory.decodeResource(resources, id);
+        stickerView.setWaterMark(StickerBitmap);
+    }
 
 }

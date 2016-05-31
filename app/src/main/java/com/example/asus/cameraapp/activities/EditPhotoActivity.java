@@ -1,4 +1,4 @@
-package com.example.asus.cameraapp;
+package com.example.asus.cameraapp.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.graphics.Matrix;
+
+import com.example.asus.cameraapp.R;
 
 import java.io.ByteArrayOutputStream;
 

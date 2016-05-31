@@ -1,4 +1,4 @@
-package com.example.asus.cameraapp;
+package com.example.asus.cameraapp.stickers;
 
 import android.app.Activity;
 import android.content.Context;

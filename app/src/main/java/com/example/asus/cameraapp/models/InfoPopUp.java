@@ -1,8 +1,10 @@
-package com.example.asus.cameraapp;
+package com.example.asus.cameraapp.models;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+
+import com.example.asus.cameraapp.R;
 
 public class
         InfoPopUp extends Activity{

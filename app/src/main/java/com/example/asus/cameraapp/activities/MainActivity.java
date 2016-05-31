@@ -1,4 +1,4 @@
-package com.example.asus.cameraapp;
+package com.example.asus.cameraapp.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,6 +10,9 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+
+import com.example.asus.cameraapp.R;
+import com.example.asus.cameraapp.Utility;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -25,7 +28,7 @@ public class MainActivity extends Activity {
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     private String userChoosenTask;
 
-    boolean result=Utility.checkPermission(MainActivity.this);
+    boolean result= Utility.checkPermission(MainActivity.this);
 
     protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);

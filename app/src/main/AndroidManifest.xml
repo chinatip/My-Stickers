@@ -12,18 +12,18 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".GalleryActivity"></activity>
-        <activity android:name=".DetailsActivity"></activity>
-        <activity android:name=".EditPhotoActivity"></activity>
-        <activity android:name=".AddStickerActivity"></activity>
-        <activity android:name=".ChooseActivity"></activity>
+        <activity android:name=".activities.GalleryActivity"></activity>
+        <activity android:name=".activities.DetailsActivity"></activity>
+        <activity android:name=".activities.EditPhotoActivity"></activity>
+        <activity android:name=".activities.AddStickerActivity"></activity>
+        <activity android:name=".activities.ChooseActivity"></activity>
     </application>
 
     <intent-filter>

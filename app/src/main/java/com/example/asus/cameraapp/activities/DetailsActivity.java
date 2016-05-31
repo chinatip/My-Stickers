@@ -1,23 +1,15 @@
-package com.example.asus.cameraapp;
+package com.example.asus.cameraapp.activities;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.DragEvent;
-import android.view.MotionEvent;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
+import com.example.asus.cameraapp.ImageItem;
+import com.example.asus.cameraapp.OnSwipeTouchListener;
+import com.example.asus.cameraapp.R;
 
 /**
  * Created by Asus on 28/5/2559.

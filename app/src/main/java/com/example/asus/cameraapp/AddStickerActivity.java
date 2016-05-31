@@ -9,6 +9,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,52 +38,64 @@ public class AddStickerActivity extends AppCompatActivity {
     private ViewGroup mRrootLayout;
     private int _xDelta;
     private int _yDelta;
+    private int posX=0,posY=0;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addsticker);
 
         bitmap = getIntent().getParcelableExtra("bitmap");
+        image = (ImageView)findViewById(R.id.img_image);
+//        mRrootLayout = (ViewGroup) findViewById(R.id.root);
+//        sticker1 = (ImageView) findViewById(R.id.sticker1);
+//        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(150, 150);
+//        sticker1.setLayoutParams(layoutParams);
+//        sticker1.setOnTouchListener(new View.OnTouchListener() {
+//            public boolean onTouch(View view, MotionEvent event) {
+//                final int X = (int) event.getRawX();
+//                final int Y = (int) event.getRawY();
+//                switch (event.getAction() & MotionEvent.ACTION_MASK) {
+//                    case MotionEvent.ACTION_DOWN:
+//                        RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
+//                        _xDelta = X - lParams.leftMargin;
+//                        _yDelta = Y - lParams.topMargin;
+//                        break;
+//                    case MotionEvent.ACTION_UP:
+//                        break;
+//                    case MotionEvent.ACTION_POINTER_DOWN:
+//                        break;
+//                    case MotionEvent.ACTION_POINTER_UP:
+//                        break;
+//                    case MotionEvent.ACTION_MOVE:
+//                        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view
+//                                .getLayoutParams();
+//                        layoutParams.leftMargin = X - _xDelta;
+//                        layoutParams.topMargin = Y - _yDelta;
+//                        layoutParams.rightMargin = -250;
+//                        layoutParams.bottomMargin = -250;
+//                        posX = layoutParams.leftMargin;
+//                        posY = layoutParams.topMargin;
+//                        view.setLayoutParams(layoutParams);
+//                        break;
+//                }
+//                mRrootLayout.invalidate();
+//                return true;
+//            }
+//        });
+        StickerView stickerView = new StickerView(this);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT);
+        params.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.img_image);
+        params.addRule(RelativeLayout.ALIGN_TOP, R.id.img_image);
+        ((ViewGroup)image.getParent()).addView(stickerView, params);
+        Bitmap StickerBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+        stickerView.setWaterMark(StickerBitmap);
 
-        mRrootLayout = (ViewGroup) findViewById(R.id.root);
-        sticker1 = (ImageView) findViewById(R.id.sticker1);
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(150, 150);
-        sticker1.setLayoutParams(layoutParams);
-        sticker1.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View view, MotionEvent event) {
-                final int X = (int) event.getRawX();
-                final int Y = (int) event.getRawY();
-                switch (event.getAction() & MotionEvent.ACTION_MASK) {
-                    case MotionEvent.ACTION_DOWN:
-                        RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
-                        _xDelta = X - lParams.leftMargin;
-                        _yDelta = Y - lParams.topMargin;
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        break;
-                    case MotionEvent.ACTION_POINTER_DOWN:
-                        break;
-                    case MotionEvent.ACTION_POINTER_UP:
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view
-                                .getLayoutParams();
-                        layoutParams.leftMargin = X - _xDelta;
-                        layoutParams.topMargin = Y - _yDelta;
-                        layoutParams.rightMargin = -250;
-                        layoutParams.bottomMargin = -250;
-                        view.setLayoutParams(layoutParams);
-                        break;
-                }
-                mRrootLayout.invalidate();
-                return true;
-            }
-        });
         initComponents();
     }
 
     private void initComponents() {
-        image = (ImageView)findViewById(R.id.img_image);
         image.setImageBitmap(bitmap);
 
         homeButton = (ImageButton) findViewById(R.id.btn_home);
@@ -104,8 +118,13 @@ public class AddStickerActivity extends AppCompatActivity {
         saveButton = (ImageButton) findViewById(R.id.btn_save);
         saveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                bitmap = overlay(bitmap, stickers.get(0));
+                bitmap = mergeToPin(bitmap, stickers.get(0));
                 image.setImageBitmap(bitmap);
+
+//                image.buildDrawingCache();
+//                Bitmap bmap = image.getDrawingCache();
+//                image.setImageBitmap(bmap);
+
                 Save savefile = new Save();
                 savefile.SaveImage(getApplicationContext(), bitmap);
             }
@@ -121,11 +140,12 @@ public class AddStickerActivity extends AppCompatActivity {
         reverseButton = (ImageButton) findViewById(R.id.btn_addS_back);
         reverseButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Bitmap myImg = BitmapFactory.decodeResource(getResources(), R.drawable.monkey);
-                Matrix matrix = new Matrix();
-                Bitmap rotated = Bitmap.createBitmap(myImg, 0, 0, myImg.getWidth(), myImg.getHeight(),
-                        matrix, true);
-                image.setImageBitmap(rotated);
+                Bitmap myImg = getIntent().getParcelableExtra("bitmap");
+//                Matrix matrix = new Matrix();
+//                Bitmap rotated = Bitmap.createBitmap(myImg, 0, 0, myImg.getWidth(), myImg.getHeight(),
+//                        matrix, true);
+                image.setImageBitmap(myImg);
+                sticker1.setImageBitmap(null);
             }
         });
 
@@ -139,40 +159,91 @@ public class AddStickerActivity extends AppCompatActivity {
 
     public static void setSticker(Bitmap bitmap) {
         sticker1.setImageBitmap(bitmap);
+        if(stickers.size()==0)
         stickers.add(bitmap);
+        else stickers.set(0, bitmap);
     }
 
-//    public static Bitmap overlay(Bitmap bmp1, Bitmap bmp2) {
-//        Bitmap bmOverlay = Bitmap.createBitmap(bmp1.getWidth(), bmp1.getHeight(), bmp1.getConfig());
-////        Bitmap scaledBitmap = Bitmap.createScaledBitmap(src, dstWidth, dstHeight, filter);
-//        Canvas canvas = new Canvas(bmOverlay);
-//        canvas.drawBitmap(bmp1, new Matrix(), null);
-//        canvas.drawBitmap(bmp2, 0, 0, null);
-//        return bmOverlay;
+    public static Bitmap mergeToPin(Bitmap back, Bitmap front) {
+        Bitmap result = Bitmap.createBitmap(back.getWidth(), back.getHeight(), back.getConfig());
+        Canvas canvas = new Canvas(result);
+        int widthBack = back.getWidth();
+        int widthFront = front.getWidth();
+        float move = (widthBack - widthFront) / 2;
+        canvas.drawBitmap(back, 0f, 0f, null);
+        canvas.drawBitmap(front, 0, 0, null);
+        return result;
+    }
+
+//    public Bitmap combineImages(Bitmap c, Bitmap s) { // can add a 3rd parameter 'String loc' if you want to save the new image - left some code to do that at the bottom
+//        Bitmap cs = null;
+//
+//        int width, height = 0;
+//
+//        if(c.getWidth() > s.getWidth()) {
+//            width = c.getWidth() + s.getWidth();
+//            height = c.getHeight();
+//        } else {
+//            width = s.getWidth() + s.getWidth();
+//            height = c.getHeight();
+//        }
+//
+//        cs = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+//
+//        Canvas comboImage = new Canvas(cs);
+//
+//        comboImage.drawBitmap(c, 0f, 0f, null);
+//        comboImage.drawBitmap(s, c.getWidth(), 0f, null);
+//
+//        // this is an extra bit I added, just incase you want to save the new image somewhere and then return the location
+//    /*String tmpImg = String.valueOf(System.currentTimeMillis()) + ".png";
+//
+//    OutputStream os = null;
+//    try {
+//      os = new FileOutputStream(loc + tmpImg);
+//      cs.compress(CompressFormat.PNG, 100, os);
+//    } catch(IOException e) {
+//      Log.e("combineImages", "problem combining images", e);
+//    }*/
+//
+//        return cs;
 //    }
 
-    public static Bitmap overlay(Bitmap bmp1, Bitmap bmp2) {
-        Bitmap bmOverlay = Bitmap.createBitmap(bmp1.getWidth(), bmp1.getHeight(), bmp1.getConfig());
-        Canvas canvas = new Canvas(bmOverlay);
-        canvas.drawBitmap(bmp1, new Matrix(), null);
-        canvas.drawBitmap(bmp2, 0, 0, null);
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_addsticker);
+//
+//        StickerView stickerView = new StickerView(this);
+//        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+//                ViewGroup.LayoutParams.MATCH_PARENT,
+//                ViewGroup.LayoutParams.MATCH_PARENT);
+//        params.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.img_view);
+//        params.addRule(RelativeLayout.ALIGN_TOP, R.id.img_view);
+//        ((ViewGroup)image.getParent()).addView(stickerView, params);
+//        Bitmap StickerBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+//        stickerView.setWaterMark(StickerBitmap);
+//    }
 
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-
-        bmOverlay.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        File f = new File(Environment.getExternalStorageDirectory()
-                + File.separator
-                + "test.jpg");
-        try {
-            f.createNewFile();
-            FileOutputStream fo = new FileOutputStream(f);
-            fo.write(bytes.toByteArray());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return bmOverlay;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
 
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }

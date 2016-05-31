@@ -54,13 +54,16 @@ public class ChooseActivity extends AppCompatActivity {
         skButton01.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Bitmap icon = BitmapFactory.decodeResource(getResources(),
-                        R.drawable.stk01);
+                        R.drawable.stk02);
                 AddStickerActivity.setSticker(icon);
                 finish();
             }
         });
         skButton02.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                Bitmap icon = BitmapFactory.decodeResource(getResources(),
+                        R.drawable.stk02_1);
+                AddStickerActivity.setSticker(icon);
                 finish();
             }
         });

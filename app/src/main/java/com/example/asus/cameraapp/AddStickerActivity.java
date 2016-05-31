@@ -35,10 +35,7 @@ public class AddStickerActivity extends AppCompatActivity {
     private ImageButton shareButton;
     private ImageButton reverseButton;
     private ImageButton infoButton;
-    private ViewGroup mRrootLayout;
-    private int _xDelta;
-    private int _yDelta;
-    private int posX=0,posY=0;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,42 +43,7 @@ public class AddStickerActivity extends AppCompatActivity {
 
         bitmap = getIntent().getParcelableExtra("bitmap");
         image = (ImageView)findViewById(R.id.img_image);
-//        mRrootLayout = (ViewGroup) findViewById(R.id.root);
-//        sticker1 = (ImageView) findViewById(R.id.sticker1);
-//        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(150, 150);
-//        sticker1.setLayoutParams(layoutParams);
-//        sticker1.setOnTouchListener(new View.OnTouchListener() {
-//            public boolean onTouch(View view, MotionEvent event) {
-//                final int X = (int) event.getRawX();
-//                final int Y = (int) event.getRawY();
-//                switch (event.getAction() & MotionEvent.ACTION_MASK) {
-//                    case MotionEvent.ACTION_DOWN:
-//                        RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
-//                        _xDelta = X - lParams.leftMargin;
-//                        _yDelta = Y - lParams.topMargin;
-//                        break;
-//                    case MotionEvent.ACTION_UP:
-//                        break;
-//                    case MotionEvent.ACTION_POINTER_DOWN:
-//                        break;
-//                    case MotionEvent.ACTION_POINTER_UP:
-//                        break;
-//                    case MotionEvent.ACTION_MOVE:
-//                        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view
-//                                .getLayoutParams();
-//                        layoutParams.leftMargin = X - _xDelta;
-//                        layoutParams.topMargin = Y - _yDelta;
-//                        layoutParams.rightMargin = -250;
-//                        layoutParams.bottomMargin = -250;
-//                        posX = layoutParams.leftMargin;
-//                        posY = layoutParams.topMargin;
-//                        view.setLayoutParams(layoutParams);
-//                        break;
-//                }
-//                mRrootLayout.invalidate();
-//                return true;
-//            }
-//        });
+
         StickerView stickerView = new StickerView(this);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -93,6 +55,28 @@ public class AddStickerActivity extends AppCompatActivity {
         stickerView.setWaterMark(StickerBitmap);
 
         initComponents();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void initComponents() {
@@ -118,6 +102,7 @@ public class AddStickerActivity extends AppCompatActivity {
         saveButton = (ImageButton) findViewById(R.id.btn_save);
         saveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                //fix
                 bitmap = mergeToPin(bitmap, stickers.get(0));
                 image.setImageBitmap(bitmap);
 
@@ -209,41 +194,4 @@ public class AddStickerActivity extends AppCompatActivity {
 //        return cs;
 //    }
 
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_addsticker);
-//
-//        StickerView stickerView = new StickerView(this);
-//        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-//                ViewGroup.LayoutParams.MATCH_PARENT,
-//                ViewGroup.LayoutParams.MATCH_PARENT);
-//        params.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.img_view);
-//        params.addRule(RelativeLayout.ALIGN_TOP, R.id.img_view);
-//        ((ViewGroup)image.getParent()).addView(stickerView, params);
-//        Bitmap StickerBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-//        stickerView.setWaterMark(StickerBitmap);
-//    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }

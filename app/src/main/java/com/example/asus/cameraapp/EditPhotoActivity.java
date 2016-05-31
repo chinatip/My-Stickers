@@ -1,13 +1,18 @@
 package com.example.asus.cameraapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.graphics.Matrix;
+
+import java.io.ByteArrayOutputStream;
 
 public class EditPhotoActivity extends AppCompatActivity {
 
@@ -54,7 +59,15 @@ public class EditPhotoActivity extends AppCompatActivity {
         cropButton = (ImageButton) findViewById(R.id.btn_crop);
         cropButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-//                finish();
+                Intent imageDownload = new Intent("com.android.camera.action.CROP");
+                imageDownload.setDataAndType(getImageUri(image.getContext(),bitmap),"image/*");
+                imageDownload.putExtra("crop", "true");
+                imageDownload.putExtra("aspectX", 1);
+                imageDownload.putExtra("aspectY", 1);
+                imageDownload.putExtra("outputX", 280);
+                imageDownload.putExtra("outputY", 280);
+                imageDownload.putExtra("return-data", true);
+                startActivityForResult(imageDownload, 2);
             }
         });
 
@@ -77,5 +90,20 @@ public class EditPhotoActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 2 && resultCode == RESULT_OK && data != null) {
+            Bundle extras = data.getExtras();
+            Bitmap images = extras.getParcelable("data");
+            image.setImageBitmap(images);
+        }
+    }
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
     }
 }

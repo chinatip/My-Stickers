@@ -126,7 +126,13 @@ public class MainActivity extends Activity {
         Bitmap bm=null;
         if (data != null) {
             try {
+//                Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+//                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+//                thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+
                 bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                bm.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
             } catch (IOException e) {
                 e.printStackTrace();
             }

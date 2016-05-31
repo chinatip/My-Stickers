@@ -60,7 +60,7 @@ public class EditPhotoActivity extends AppCompatActivity {
         cropButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent imageDownload = new Intent("com.android.camera.action.CROP");
-                imageDownload.setDataAndType(getImageUri(image.getContext(),bitmap),"image/*");
+                imageDownload.setDataAndType(getImageUri(image.getContext(), bitmap),"image/*");
                 imageDownload.putExtra("crop", "true");
                 imageDownload.putExtra("aspectX", 1);
                 imageDownload.putExtra("aspectY", 1);
@@ -96,8 +96,9 @@ public class EditPhotoActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 2 && resultCode == RESULT_OK && data != null) {
             Bundle extras = data.getExtras();
-            Bitmap images = extras.getParcelable("data");
-            image.setImageBitmap(images);
+            Bitmap cropImage = extras.getParcelable("data");
+            image.setImageBitmap(cropImage);
+            temp = cropImage;
         }
     }
     public Uri getImageUri(Context inContext, Bitmap inImage) {

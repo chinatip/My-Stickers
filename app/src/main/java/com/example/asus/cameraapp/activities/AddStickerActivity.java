@@ -21,6 +21,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.example.asus.cameraapp.R;
+import com.example.asus.cameraapp.functions.CareTaker;
+import com.example.asus.cameraapp.functions.Originator;
 import com.example.asus.cameraapp.functions.Save;
 import com.example.asus.cameraapp.stickers.StickerView;
 
@@ -39,6 +41,9 @@ public class AddStickerActivity extends AppCompatActivity {
     private ImageButton infoButton;
     private static Resources resources;
     private static StickerView stickerView;
+    Originator originator = new Originator();
+    CareTaker careTaker = new CareTaker();
+    int countState=-1;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +53,9 @@ public class AddStickerActivity extends AppCompatActivity {
         bitmap = getIntent().getParcelableExtra("bitmap");
         temp = bitmap;
         image = (ImageView)findViewById(R.id.img_image);
-
+        originator.setState(bitmap);
+        countState++;
+        careTaker.add(originator.saveStateToMemento());
         stickerView = new StickerView(this);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -108,7 +115,9 @@ public class AddStickerActivity extends AppCompatActivity {
                 Bitmap sticker = stickerView.getBitmap();
                 temp = mergeBitmap(temp, sticker);
                 image.setImageBitmap(temp);
-
+                originator.setState(temp);
+                careTaker.add(originator.saveStateToMemento());
+                countState++;
                 Save saveFile = new Save();
                 saveFile.SaveImage(getApplicationContext(), temp);
             }
@@ -150,12 +159,15 @@ public class AddStickerActivity extends AppCompatActivity {
         reverseButton = (ImageButton) findViewById(R.id.btn_addS_back);
         reverseButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                if(countState>1)
+                countState--;
+                Bitmap bitmapState = careTaker.get(countState).getState();
                 Matrix matrix = new Matrix();
-                Bitmap rotated = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(),
+                Bitmap rotated = Bitmap.createBitmap(bitmapState, 0, 0, bitmap.getWidth(), bitmap.getHeight(),
                         matrix, true);
                 image = (ImageView) findViewById(R.id.img_image);
                 image.setImageBitmap(rotated);
-                temp = rotated;
+                temp = bitmapState;
             }
         });
 

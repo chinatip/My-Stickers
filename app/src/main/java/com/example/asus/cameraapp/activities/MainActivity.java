@@ -122,8 +122,8 @@ public class MainActivity extends Activity {
 
     private void onCaptureImageResult(Intent data) {
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-//        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-//        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
 /**
         File folder = new File("/MyStickers");
         File destination = new File (Environment.getExternalStorageDirectory().getAbsolutePath()+folder,
@@ -156,8 +156,8 @@ public class MainActivity extends Activity {
         if (data != null) {
             try {
                 bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
-//                ByteArrayOutputStream bytes = new ByteArrayOutputStream(); 
-//                bm.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                bm.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
             } catch (IOException e) {
                 e.printStackTrace();
             }

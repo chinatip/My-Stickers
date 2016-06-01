@@ -1,4 +1,4 @@
-package com.example.asus.cameraapp.stickers;
+package com.example.asus.cameraapp.adapters;
 
 import java.util.ArrayList;
 
@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import com.example.asus.cameraapp.R;
 import com.example.asus.cameraapp.activities.AddStickerActivity;
 import com.example.asus.cameraapp.activities.ChooseActivity;
+import com.example.asus.cameraapp.stickers.StickerRow;
 
 public class StickerAdapter extends BaseAdapter {
     private ArrayList<StickerRow> list;

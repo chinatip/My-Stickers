@@ -1,13 +1,11 @@
 package com.example.asus.cameraapp.activities;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.ListView;
 
 import com.example.asus.cameraapp.R;
-import com.example.asus.cameraapp.stickers.StickerAdapter;
+import com.example.asus.cameraapp.adapters.StickerAdapter;
 import com.example.asus.cameraapp.stickers.StickerRow;
 
 import java.util.ArrayList;

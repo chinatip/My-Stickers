@@ -52,7 +52,7 @@ public class EditPhotoActivity extends AppCompatActivity {
 
             public void onClick(View view) {
                 matrix.postRotate(-90);
-                Bitmap rotated = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+                Bitmap rotated = Bitmap.createBitmap(temp, 0, 0, temp.getWidth(), temp.getHeight(), matrix, true);
                 image.setImageBitmap(rotated);
                 temp = rotated;
             }
@@ -62,7 +62,7 @@ public class EditPhotoActivity extends AppCompatActivity {
         cropButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent imageDownload = new Intent("com.android.camera.action.CROP");
-                imageDownload.setDataAndType(getImageUri(image.getContext(), bitmap),"image/*");
+                imageDownload.setDataAndType(getImageUri(image.getContext(), temp),"image/*");
                 imageDownload.putExtra("crop", "true");
                 imageDownload.putExtra("aspectX", 1);
                 imageDownload.putExtra("aspectY", 1);

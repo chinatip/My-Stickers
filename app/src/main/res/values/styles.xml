@@ -13,4 +13,5 @@
     <style name="AppTheme.Button" >
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
+
 </resources>

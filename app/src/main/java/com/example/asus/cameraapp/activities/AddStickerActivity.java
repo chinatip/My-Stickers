@@ -12,7 +12,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,7 +20,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.example.asus.cameraapp.models.InfoPopUp;
 import com.example.asus.cameraapp.R;
 import com.example.asus.cameraapp.Save;
 import com.example.asus.cameraapp.stickers.StickerView;
@@ -29,7 +27,6 @@ import com.example.asus.cameraapp.stickers.StickerView;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 
 public class AddStickerActivity extends AppCompatActivity {
     private Bitmap bitmap, temp;
@@ -166,22 +163,10 @@ public class AddStickerActivity extends AppCompatActivity {
         infoButton = (ImageButton) findViewById(R.id.btn_info);
         infoButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                startActivity(new Intent(AddStickerActivity.this, InfoPopUp.class));
+                Intent intent = new Intent(AddStickerActivity.this, InfoPopUpActivity.class);
+                startActivity(intent);
             }
         });
-    }
-
-    public static Bitmap mergeToPin(Bitmap back, Bitmap front) {
-        Bitmap result = Bitmap.createBitmap(back.getWidth(), back.getHeight(), back.getConfig());
-        Canvas canvas = new Canvas(result);
-        int widthBack = back.getWidth();
-        int widthFront = front.getWidth();
-        float move = (widthBack - widthFront) / 2;
-        canvas.drawBitmap(back, 0f, 0f, null);
-        result = Bitmap.createBitmap(front.getWidth(), front.getHeight(), front.getConfig());
-        canvas.setBitmap(result);
-        canvas.drawBitmap(front, 0, 0, null);
-        return result;
     }
 
     public Bitmap mergeBitmap(Bitmap back, Bitmap front){
@@ -195,17 +180,10 @@ public class AddStickerActivity extends AppCompatActivity {
             Drawable drawable1 = new BitmapDrawable(back);
             Drawable drawable2 = new BitmapDrawable(front);
 
-            Log.e("left-right",back.getScaledWidth(c)/2 + back.getWidth()/2+"");
-            Log.e("up-down", back.getScaledHeight(c) / 2 + back.getHeight() / 2 + "");
-
-
-//            drawble1 = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 50, 50, true));
-
             drawable1.setBounds(0, 0, back.getWidth(), back.getHeight());
             drawable2.setBounds(0,0, back.getWidth(), back.getHeight());
             drawable1.draw(c);
             drawable2.draw(c);
-
 
         } catch (Exception e) {
         }

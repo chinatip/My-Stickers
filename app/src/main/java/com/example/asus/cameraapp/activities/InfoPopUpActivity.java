@@ -1,4 +1,4 @@
-package com.example.asus.cameraapp.models;
+package com.example.asus.cameraapp.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -6,8 +6,7 @@ import android.util.DisplayMetrics;
 
 import com.example.asus.cameraapp.R;
 
-public class
-        InfoPopUp extends Activity{
+public class InfoPopUpActivity extends Activity{
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -1,4 +1,4 @@
-package com.example.asus.cameraapp;
+package com.example.asus.cameraapp.models;
 
 import android.graphics.Bitmap;
 import android.net.Uri;

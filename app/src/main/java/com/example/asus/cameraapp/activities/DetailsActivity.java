@@ -1,13 +1,14 @@
 package com.example.asus.cameraapp.activities;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.asus.cameraapp.ImageItem;
+import com.example.asus.cameraapp.models.ImageItem;
 import com.example.asus.cameraapp.OnSwipeTouchListener;
 import com.example.asus.cameraapp.R;
 
@@ -35,42 +36,42 @@ public class DetailsActivity extends AppCompatActivity {
 
         ImageView imageView = (ImageView) findViewById(R.id.image);
         //using device file
-//        imageView.setImageBitmap(BitmapFactory.decodeFile(path));
+        imageView.setImageBitmap(BitmapFactory.decodeFile(path));
 
         //using drawable
-        imageView.setImageResource(Integer.parseInt(path));
+//        imageView.setImageResource(Integer.parseInt(path));
 
-        imageView.setOnTouchListener(new OnSwipeTouchListener(DetailsActivity.this) {
-            public void onSwipeTop() {
-                Toast.makeText(DetailsActivity.this, "top", Toast.LENGTH_SHORT).show();
-            }
-            public void onSwipeRight() {
-                if(index>0){
-                    Intent intent = new Intent(DetailsActivity.this, DetailsActivity.class);
-                    ImageItem item = GalleryActivity.getImageItems().get(index-1);
-                    intent.putExtra("title", item.getTitle());
-                    intent.putExtra("index", index-1);
-                    intent.putExtra("imagePath", item.getPath());
-                    startActivity(intent);
-                    finish();
-                }
-            }
-            public void onSwipeLeft() {
-                if(GalleryActivity.getImageItems().size()>index+1){
-                    Intent intent = new Intent(DetailsActivity.this, DetailsActivity.class);
-                    ImageItem item = GalleryActivity.getImageItems().get(index+1);
-                    intent.putExtra("title", item.getTitle());
-                    intent.putExtra("index", index+1);
-                    intent.putExtra("imagePath", item.getPath());
-                    startActivity(intent);
-                    finish();
-                }
-            }
-            public void onSwipeBottom() {
-                Toast.makeText(DetailsActivity.this, "bottom", Toast.LENGTH_SHORT).show();
-            }
-
-        });
+//        imageView.setOnTouchListener(new OnSwipeTouchListener(DetailsActivity.this) {
+//            public void onSwipeTop() {
+//                Toast.makeText(DetailsActivity.this, "top", Toast.LENGTH_SHORT).show();
+//            }
+//            public void onSwipeRight() {
+//                if(index>0){
+//                    Intent intent = new Intent(DetailsActivity.this, DetailsActivity.class);
+//                    ImageItem item = GalleryActivity.getImageItems().get(index-1);
+//                    intent.putExtra("title", item.getTitle());
+//                    intent.putExtra("index", index-1);
+//                    intent.putExtra("imagePath", item.getPath());
+//                    startActivity(intent);
+//                    finish();
+//                }
+//            }
+//            public void onSwipeLeft() {
+//                if(GalleryActivity.getImageItems().size()>index+1){
+//                    Intent intent = new Intent(DetailsActivity.this, DetailsActivity.class);
+//                    ImageItem item = GalleryActivity.getImageItems().get(index+1);
+//                    intent.putExtra("title", item.getTitle());
+//                    intent.putExtra("index", index+1);
+//                    intent.putExtra("imagePath", item.getPath());
+//                    startActivity(intent);
+//                    finish();
+//                }
+//            }
+//            public void onSwipeBottom() {
+//                Toast.makeText(DetailsActivity.this, "bottom", Toast.LENGTH_SHORT).show();
+//            }
+//
+//        });
 
     }
 }

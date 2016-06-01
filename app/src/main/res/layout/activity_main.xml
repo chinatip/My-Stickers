@@ -50,4 +50,22 @@
         android:layout_marginBottom="30dp"
         android:layout_marginRight="35dp" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gallery from device"
+        android:id="@+id/galleryFDecButton"
+        android:layout_alignTop="@+id/galleryButton"
+        android:layout_alignRight="@+id/img_logo"
+        android:layout_alignEnd="@+id/img_logo" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gallery From App"
+        android:id="@+id/galleryFAppButton"
+        android:layout_below="@+id/galleryFDecButton"
+        android:layout_alignRight="@+id/img_logo"
+        android:layout_alignEnd="@+id/img_logo" />
+
 </RelativeLayout>

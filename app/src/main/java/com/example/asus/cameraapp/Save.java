@@ -18,7 +18,7 @@ import java.util.Calendar;
 public class Save {
     private Context TheThis;
     private String NameOfFolder = "/MyStickers";
-    private String NameOfFile   = "MyImage:";
+    private String NameOfFile   = "MyImage";
 
     public void SaveImage(Context context,Bitmap ImageToSave){
         TheThis = context;
@@ -57,7 +57,7 @@ public class Save {
 
     private String getCurrentDateAndTime() {
         Calendar c = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmm");
         String formattedDate = df.format(c.getTime());
         return formattedDate;
     }

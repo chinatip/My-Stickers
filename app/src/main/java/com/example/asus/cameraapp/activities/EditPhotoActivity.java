@@ -76,11 +76,11 @@ public class EditPhotoActivity extends AppCompatActivity {
         backButton = (ImageButton) findViewById(R.id.btn_crop_back);
         backButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Matrix matrix = new Matrix();
-                Bitmap rotated = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(),
-                        matrix, true);
-                image.setImageBitmap(rotated);
-                temp = rotated;
+//                Matrix matrix = new Matrix();
+//                Bitmap rotated = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(),
+//                        matrix, true);
+                image.setImageBitmap(bitmap);
+                temp = bitmap;
             }
         });
 
@@ -104,8 +104,8 @@ public class EditPhotoActivity extends AppCompatActivity {
         }
     }
     public Uri getImageUri(Context inContext, Bitmap inImage) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+//        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+//        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
         return Uri.parse(path);
     }

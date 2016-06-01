@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.example.asus.cameraapp.R;
+import com.example.asus.cameraapp.Save;
 import com.example.asus.cameraapp.Utility;
 
 import java.io.ByteArrayOutputStream;
@@ -121,9 +122,9 @@ public class MainActivity extends Activity {
 
     private void onCaptureImageResult(Intent data) {
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-
+//        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+//        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+/**
         File folder = new File("/MyStickers");
         File destination = new File (Environment.getExternalStorageDirectory().getAbsolutePath()+folder,
                                 System.currentTimeMillis() + ".jpg");
@@ -141,6 +142,9 @@ public class MainActivity extends Activity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+ */
+        Save saveFile = new Save();
+        saveFile.SaveImage(getApplicationContext(), thumbnail);
 
         Intent intent = new Intent(this, EditPhotoActivity.class);
         intent.putExtra("BitmapImage", thumbnail);
@@ -152,8 +156,8 @@ public class MainActivity extends Activity {
         if (data != null) {
             try {
                 bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                bm.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+//                ByteArrayOutputStream bytes = new ByteArrayOutputStream(); 
+//                bm.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
             } catch (IOException e) {
                 e.printStackTrace();
             }

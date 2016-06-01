@@ -57,7 +57,7 @@ public class Save {
 
     private String getCurrentDateAndTime() {
         Calendar c = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmm");
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmSS");
         String formattedDate = df.format(c.getTime());
         return formattedDate;
     }

@@ -53,18 +53,18 @@ public class GalleryActivity extends AppCompatActivity {
     private ArrayList<ImageItem> getData() {
         imageItems = new ArrayList<>();
 //        using device file
-        for (int i = 0; i < data.size(); i++) {
-            imageItems.add(new ImageItem("Image#" + i, data.get(i).getAbsolutePath()));
-            Log.e("path",data.get(i).getAbsolutePath());
-        }
+//        for (int i = 0; i < data.size(); i++) {
+//            imageItems.add(new ImageItem("Image#" + i, data.get(i).getAbsolutePath()));
+//            Log.e("path",data.get(i).getAbsolutePath());
+//        }
 
 //        using drawable file
-//            imageItems.add(new ImageItem("Image#" + 1, R.drawable.s1 + ""));
-//            imageItems.add(new ImageItem("Image#" + 2, R.drawable.s2 + ""));
-//            imageItems.add(new ImageItem("Image#" + 3,R.drawable.s3+""));
-//            imageItems.add(new ImageItem("Image#" + 4,R.drawable.s4+""));
-//            imageItems.add(new ImageItem("Image#" + 5, R.drawable.s5 + ""));
-//            imageItems.add(new ImageItem("Image#" + 6, R.drawable.s6 + ""));
+            imageItems.add(new ImageItem("Image#" + 1, R.drawable.s1 + ""));
+            imageItems.add(new ImageItem("Image#" + 2, R.drawable.s2 + ""));
+            imageItems.add(new ImageItem("Image#" + 3,R.drawable.s3+""));
+            imageItems.add(new ImageItem("Image#" + 4,R.drawable.s4+""));
+            imageItems.add(new ImageItem("Image#" + 5, R.drawable.s5 + ""));
+            imageItems.add(new ImageItem("Image#" + 6, R.drawable.s6 + ""));
 
         return imageItems;
     }

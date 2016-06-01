@@ -39,7 +39,7 @@ public class DetailsActivity extends AppCompatActivity {
         imageView.setImageBitmap(BitmapFactory.decodeFile(path));
 
         //using drawable
-//        imageView.setImageResource(Integer.parseInt(path));
+        imageView.setImageResource(Integer.parseInt(path));
 
 //        imageView.setOnTouchListener(new OnSwipeTouchListener(DetailsActivity.this) {
 //            public void onSwipeTop() {

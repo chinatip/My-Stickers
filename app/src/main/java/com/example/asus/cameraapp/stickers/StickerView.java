@@ -14,6 +14,9 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.example.asus.cameraapp.R;
+import com.example.asus.cameraapp.stickers.state.CancleState;
+import com.example.asus.cameraapp.stickers.state.MotionState;
+import com.example.asus.cameraapp.stickers.state.MoveState;
 
 
 /**
@@ -246,6 +249,7 @@ public class StickerView extends View {
         }
         float x = event.getX();
         float y = event.getY();
+        MotionState state;
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 if (isInController(x, y)) {
@@ -290,51 +294,12 @@ public class StickerView extends View {
                     break;
                 }
             case MotionEvent.ACTION_CANCEL:
-                mLastPointX = 0;
-                mLastPointY = 0;
-                mInController = false;
-                mInMove = false;
-                mInDelete = false;
-                mInReversalHorizontal = false;
-                mInReversalVertical = false;
+                state = new CancleState();
+                state.dispatchTouchEvent(event, this);
                 break;
             case MotionEvent.ACTION_MOVE:
-                if (mInController) {
-
-                    mMatrix.postRotate(rotation(event), mPoints[8], mPoints[9]);
-                    float nowLenght = caculateLength(mPoints[0], mPoints[1]);
-                    float touchLenght = caculateLength(event.getX(), event.getY());
-                    if ((float)Math.sqrt((nowLenght - touchLenght) * (nowLenght - touchLenght)) > 0.0f) {
-                        float scale = touchLenght / nowLenght;
-                        float nowsc = mStickerScaleSize * scale;
-                        if (nowsc >= MIN_SCALE_SIZE && nowsc <= MAX_SCALE_SIZE) {
-                            mMatrix.postScale(scale, scale, mPoints[8], mPoints[9]);
-                            mStickerScaleSize = nowsc;
-                        }
-                    }
-
-                    invalidate();
-                    mLastPointX = x;
-                    mLastPointY = y;
-                    break;
-
-                }
-
-                if (mInMove == true) { //拖动的操作
-                    float cX = x - mLastPointX;
-                    float cY = y - mLastPointY;
-                    mInController = false;
-                    //Log.i("MATRIX_OK", "ma_jiaodu:" + a(cX, cY));
-
-                    if ((float)Math.sqrt(cX * cX + cY * cY) > 2.0f  && canStickerMove(cX, cY)) {
-                        //Log.i("MATRIX_OK", "is true to move");
-                        mMatrix.postTranslate(cX, cY);
-                        postInvalidate();
-                        mLastPointX = x;
-                        mLastPointY = y;
-                    }
-                    break;
-                }
+                state = new MoveState();
+                state.dispatchTouchEvent(event, this);
 
 
                 return true;
@@ -343,7 +308,7 @@ public class StickerView extends View {
         return true;
     }
 
-    private void doDeleteSticker() {
+    public void doDeleteSticker() {
         setWaterMark(null);
         if (mOnStickerDeleteListener != null) {
             mOnStickerDeleteListener.onDelete();
@@ -351,7 +316,7 @@ public class StickerView extends View {
     }
 
     //图片水平反转
-    private void doReversalHorizontal(){
+    public void doReversalHorizontal(){
         float[] floats = new float[] { -1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f };
         Matrix tmpMatrix = new Matrix();
         tmpMatrix.setValues(floats);
@@ -361,7 +326,7 @@ public class StickerView extends View {
         mInReversalHorizontal = false;
     }
     //图片垂直反转
-    private void doReversalVertical(){
+    public void doReversalVertical(){
         float[] floats = new float[] { 1f, 0f, 0f, 0f, -1f, 0f, 0f, 0f, 1f };
         Matrix tmpMatrix = new Matrix();
         tmpMatrix.setValues(floats);
@@ -383,7 +348,7 @@ public class StickerView extends View {
     }
 
 
-    private float caculateLength(float x, float y) {
+    private float calculateLength(float x, float y) {
         float ex = x - mPoints[8];
         float ey = y - mPoints[9];
         return (float)Math.sqrt(ex * ex + ey * ey);
@@ -409,5 +374,269 @@ public class StickerView extends View {
 
     public void setOnStickerDeleteListener(OnStickerDeleteListener listener) {
         mOnStickerDeleteListener = listener;
+    }
+
+    public float getmScaleSize() {
+        return mScaleSize;
+    }
+
+    public void setmScaleSize(float mScaleSize) {
+        this.mScaleSize = mScaleSize;
+    }
+
+    public static float getMaxScaleSize() {
+        return MAX_SCALE_SIZE;
+    }
+
+    public static float getMinScaleSize() {
+        return MIN_SCALE_SIZE;
+    }
+
+    public float[] getmOriginPoints() {
+        return mOriginPoints;
+    }
+
+    public void setmOriginPoints(float[] mOriginPoints) {
+        this.mOriginPoints = mOriginPoints;
+    }
+
+    public float[] getmPoints() {
+        return mPoints;
+    }
+
+    public void setmPoints(float[] mPoints) {
+        this.mPoints = mPoints;
+    }
+
+    public RectF getmOriginContentRect() {
+        return mOriginContentRect;
+    }
+
+    public void setmOriginContentRect(RectF mOriginContentRect) {
+        this.mOriginContentRect = mOriginContentRect;
+    }
+
+    public RectF getmContentRect() {
+        return mContentRect;
+    }
+
+    public void setmContentRect(RectF mContentRect) {
+        this.mContentRect = mContentRect;
+    }
+
+    public RectF getmViewRect() {
+        return mViewRect;
+    }
+
+    public void setmViewRect(RectF mViewRect) {
+        this.mViewRect = mViewRect;
+    }
+
+    public float getmLastPointX() {
+        return mLastPointX;
+    }
+
+    public void setmLastPointX(float mLastPointX) {
+        this.mLastPointX = mLastPointX;
+    }
+
+    public float getmLastPointY() {
+        return mLastPointY;
+    }
+
+    public void setmLastPointY(float mLastPointY) {
+        this.mLastPointY = mLastPointY;
+    }
+
+    public Bitmap getmBitmap() {
+        return mBitmap;
+    }
+
+    public void setmBitmap(Bitmap mBitmap) {
+        this.mBitmap = mBitmap;
+    }
+
+    public Bitmap getmControllerBitmap() {
+        return mControllerBitmap;
+    }
+
+    public void setmControllerBitmap(Bitmap mControllerBitmap) {
+        this.mControllerBitmap = mControllerBitmap;
+    }
+
+    public Bitmap getmDeleteBitmap() {
+        return mDeleteBitmap;
+    }
+
+    public void setmDeleteBitmap(Bitmap mDeleteBitmap) {
+        this.mDeleteBitmap = mDeleteBitmap;
+    }
+
+    public Bitmap getmReversalHorBitmap() {
+        return mReversalHorBitmap;
+    }
+
+    public void setmReversalHorBitmap(Bitmap mReversalHorBitmap) {
+        this.mReversalHorBitmap = mReversalHorBitmap;
+    }
+
+    public Bitmap getmReversalVerBitmap() {
+        return mReversalVerBitmap;
+    }
+
+    public void setmReversalVerBitmap(Bitmap mReversalVerBitmap) {
+        this.mReversalVerBitmap = mReversalVerBitmap;
+    }
+
+    public Matrix getmMatrix() {
+        return mMatrix;
+    }
+
+    public void setmMatrix(Matrix mMatrix) {
+        this.mMatrix = mMatrix;
+    }
+
+    public Paint getmPaint() {
+        return mPaint;
+    }
+
+    public void setmPaint(Paint mPaint) {
+        this.mPaint = mPaint;
+    }
+
+    public Paint getmBorderPaint() {
+        return mBorderPaint;
+    }
+
+    public void setmBorderPaint(Paint mBorderPaint) {
+        this.mBorderPaint = mBorderPaint;
+    }
+
+    public float getmControllerWidth() {
+        return mControllerWidth;
+    }
+
+    public void setmControllerWidth(float mControllerWidth) {
+        this.mControllerWidth = mControllerWidth;
+    }
+
+    public float getmControllerHeight() {
+        return mControllerHeight;
+    }
+
+    public void setmControllerHeight(float mControllerHeight) {
+        this.mControllerHeight = mControllerHeight;
+    }
+
+    public float getmDeleteWidth() {
+        return mDeleteWidth;
+    }
+
+    public void setmDeleteWidth(float mDeleteWidth) {
+        this.mDeleteWidth = mDeleteWidth;
+    }
+
+    public float getmDeleteHeight() {
+        return mDeleteHeight;
+    }
+
+    public void setmDeleteHeight(float mDeleteHeight) {
+        this.mDeleteHeight = mDeleteHeight;
+    }
+
+    public float getmReversalHorWidth() {
+        return mReversalHorWidth;
+    }
+
+    public void setmReversalHorWidth(float mReversalHorWidth) {
+        this.mReversalHorWidth = mReversalHorWidth;
+    }
+
+    public float getmReversalHorHeight() {
+        return mReversalHorHeight;
+    }
+
+    public void setmReversalHorHeight(float mReversalHorHeight) {
+        this.mReversalHorHeight = mReversalHorHeight;
+    }
+
+    public float getmReversalVerWidth() {
+        return mReversalVerWidth;
+    }
+
+    public void setmReversalVerWidth(float mReversalVerWidth) {
+        this.mReversalVerWidth = mReversalVerWidth;
+    }
+
+    public float getmReversalVerHeight() {
+        return mReversalVerHeight;
+    }
+
+    public void setmReversalVerHeight(float mReversalVerHeight) {
+        this.mReversalVerHeight = mReversalVerHeight;
+    }
+
+    public boolean ismInController() {
+        return mInController;
+    }
+
+    public void setmInController(boolean mInController) {
+        this.mInController = mInController;
+    }
+
+    public boolean ismInMove() {
+        return mInMove;
+    }
+
+    public void setmInMove(boolean mInMove) {
+        this.mInMove = mInMove;
+    }
+
+    public boolean ismInReversalHorizontal() {
+        return mInReversalHorizontal;
+    }
+
+    public void setmInReversalHorizontal(boolean mInReversalHorizontal) {
+        this.mInReversalHorizontal = mInReversalHorizontal;
+    }
+
+    public boolean ismInReversalVertical() {
+        return mInReversalVertical;
+    }
+
+    public void setmInReversalVertical(boolean mInReversalVertical) {
+        this.mInReversalVertical = mInReversalVertical;
+    }
+
+    public boolean ismDrawController() {
+        return mDrawController;
+    }
+
+    public void setmDrawController(boolean mDrawController) {
+        this.mDrawController = mDrawController;
+    }
+
+    public float getmStickerScaleSize() {
+        return mStickerScaleSize;
+    }
+
+    public void setmStickerScaleSize(float mStickerScaleSize) {
+        this.mStickerScaleSize = mStickerScaleSize;
+    }
+
+    public OnStickerDeleteListener getmOnStickerDeleteListener() {
+        return mOnStickerDeleteListener;
+    }
+
+    public void setmOnStickerDeleteListener(OnStickerDeleteListener mOnStickerDeleteListener) {
+        this.mOnStickerDeleteListener = mOnStickerDeleteListener;
+    }
+
+    public boolean ismInDelete() {
+        return mInDelete;
+    }
+
+    public void setmInDelete(boolean mInDelete) {
+        this.mInDelete = mInDelete;
     }
 }

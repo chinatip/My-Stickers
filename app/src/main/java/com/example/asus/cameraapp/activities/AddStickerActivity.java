@@ -162,21 +162,21 @@ public class AddStickerActivity extends AppCompatActivity {
         Bitmap bitmap = null;
         try {
 
-            bitmap = Bitmap.createBitmap(500, 500, Bitmap.Config.ARGB_8888);
+            bitmap = Bitmap.createBitmap(back.getWidth(), back.getHeight(), Bitmap.Config.ARGB_8888);
             Canvas c = new Canvas(bitmap);
             Resources res = resources;
 
             Drawable drawable1 = new BitmapDrawable(back);
             Drawable drawable2 = new BitmapDrawable(front);
 
-            int backLeftRight = (c.getWidth() - back.getWidth())/2;
-            int backUpDown = (c.getHeight() - back.getHeight())/2;
             Log.e("left-right",back.getScaledWidth(c)/2 + back.getWidth()/2+"");
             Log.e("up-down", back.getScaledHeight(c) / 2 + back.getHeight() / 2 + "");
 
 
-            drawable1.setBounds(100, 100, 400, 400);
-            drawable2.setBounds(150, 150, 350, 350);
+//            drawble1 = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 50, 50, true));
+
+            drawable1.setBounds(0, 0, back.getWidth(), back.getHeight());
+            drawable2.setBounds(0,0, back.getWidth(), back.getHeight());
             drawable1.draw(c);
             drawable2.draw(c);
 

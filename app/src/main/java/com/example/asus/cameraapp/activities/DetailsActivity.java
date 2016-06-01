@@ -1,15 +1,11 @@
 package com.example.asus.cameraapp.activities;
 
-import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.asus.cameraapp.models.ImageItem;
-import com.example.asus.cameraapp.OnSwipeTouchListener;
 import com.example.asus.cameraapp.R;
 
 /**

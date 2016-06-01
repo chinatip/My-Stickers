@@ -14,11 +14,6 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.example.asus.cameraapp.R;
-import com.example.asus.cameraapp.stickers.state.CancleState;
-import com.example.asus.cameraapp.stickers.state.DownState;
-import com.example.asus.cameraapp.stickers.state.MotionState;
-import com.example.asus.cameraapp.stickers.state.MoveState;
-import com.example.asus.cameraapp.stickers.state.UpState;
 
 
 /**
@@ -179,6 +174,67 @@ public class StickerView extends View {
         mDrawController = show;
     }
 
+
+    private boolean isInController(float x, float y) {
+        int position = 4;
+        //while (position < 8) {
+        float rx = mPoints[position];
+        float ry = mPoints[position + 1];
+        RectF rectF = new RectF(rx - mControllerWidth / 2,
+                ry - mControllerHeight / 2,
+                rx + mControllerWidth / 2,
+                ry + mControllerHeight / 2);
+        if (rectF.contains(x, y)) {
+            return true;
+        }
+        //   position += 2;
+        //}
+        return false;
+
+    }
+
+    private boolean isInDelete(float x, float y) {
+        int position = 0;
+        //while (position < 8) {
+        float rx = mPoints[position];
+        float ry = mPoints[position + 1];
+        RectF rectF = new RectF(rx - mDeleteWidth / 2,
+                ry - mDeleteHeight / 2,
+                rx + mDeleteWidth / 2,
+                ry + mDeleteHeight / 2);
+        if (rectF.contains(x, y)) {
+            return true;
+        }
+        //   position += 2;
+        //}
+        return false;
+
+    }
+    //判断点击区域是否在水平反转按钮区域内
+    private boolean isInReversalHorizontal(float x,float y){
+        int position = 2;
+        float rx = mPoints[position];
+        float ry = mPoints[position+1];
+
+        RectF rectF = new RectF(rx - mReversalHorWidth/2,ry-mReversalHorHeight/2,rx+mReversalHorWidth/2,ry+mReversalHorHeight/2);
+        if (rectF.contains(x,y))
+            return true;
+
+        return false;
+
+    }
+    //判断点击区域是否在垂直反转按钮区域内
+    private boolean isInReversalVertical(float x,float y){
+        int position = 6;
+        float rx = mPoints[position];
+        float ry = mPoints[position+1];
+
+        RectF rectF = new RectF(rx - mReversalVerWidth/2,ry - mReversalVerHeight/2,rx + mReversalVerWidth/2,ry+mReversalVerHeight/2);
+        if (rectF.contains(x,y))
+            return true;
+        return false;
+    }
+
     private boolean mInDelete = false;
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
@@ -190,29 +246,161 @@ public class StickerView extends View {
         }
         float x = event.getX();
         float y = event.getY();
-        MotionState state;
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                state = new DownState();
-                state.dispatchTouchEvent(event, this);
+                if (isInController(x, y)) {
+                    mInController = true;
+                    mLastPointY = y;
+                    mLastPointX = x;
+                    break;
+                }
+
+                if (isInDelete(x, y)) {
+                    mInDelete = true;
+                    break;
+                }
+
+                if(isInReversalHorizontal(x,y)){
+                    mInReversalHorizontal = true;
+                    break;
+                }
+
+                if(isInReversalVertical(x,y)){
+                    mInReversalVertical = true;
+                    break;
+                }
+
+                if (mContentRect.contains(x, y)) {
+                    mLastPointY = y;
+                    mLastPointX = x;
+                    mInMove = true;
+                }
                 break;
             case MotionEvent.ACTION_UP:
-                state = new UpState();
-                state.dispatchTouchEvent(event, this);
-                break;
+                if (isInDelete(x, y) && mInDelete) {
+                    doDeleteSticker();
+                    break;
+                }
+                if(isInReversalHorizontal(x,y) && mInReversalHorizontal){
+                    doReversalHorizontal();
+                    break;
+                }
+                if (isInReversalVertical(x,y) && mInReversalVertical){
+                    doReversalVertical();
+                    break;
+                }
             case MotionEvent.ACTION_CANCEL:
-                state = new CancleState();
-                state.dispatchTouchEvent(event, this);
+                mLastPointX = 0;
+                mLastPointY = 0;
+                mInController = false;
+                mInMove = false;
+                mInDelete = false;
+                mInReversalHorizontal = false;
+                mInReversalVertical = false;
                 break;
             case MotionEvent.ACTION_MOVE:
-                state = new MoveState();
-                state.dispatchTouchEvent(event, this);
+                if (mInController) {
+
+                    mMatrix.postRotate(rotation(event), mPoints[8], mPoints[9]);
+                    float nowLenght = caculateLength(mPoints[0], mPoints[1]);
+                    float touchLenght = caculateLength(event.getX(), event.getY());
+                    if ((float)Math.sqrt((nowLenght - touchLenght) * (nowLenght - touchLenght)) > 0.0f) {
+                        float scale = touchLenght / nowLenght;
+                        float nowsc = mStickerScaleSize * scale;
+                        if (nowsc >= MIN_SCALE_SIZE && nowsc <= MAX_SCALE_SIZE) {
+                            mMatrix.postScale(scale, scale, mPoints[8], mPoints[9]);
+                            mStickerScaleSize = nowsc;
+                        }
+                    }
+
+                    invalidate();
+                    mLastPointX = x;
+                    mLastPointY = y;
+                    break;
+
+                }
+
+                if (mInMove == true) { //拖动的操作
+                    float cX = x - mLastPointX;
+                    float cY = y - mLastPointY;
+                    mInController = false;
+                    //Log.i("MATRIX_OK", "ma_jiaodu:" + a(cX, cY));
+
+                    if ((float)Math.sqrt(cX * cX + cY * cY) > 2.0f  && canStickerMove(cX, cY)) {
+                        //Log.i("MATRIX_OK", "is true to move");
+                        mMatrix.postTranslate(cX, cY);
+                        postInvalidate();
+                        mLastPointX = x;
+                        mLastPointY = y;
+                    }
+                    break;
+                }
 
 
                 return true;
 
         }
         return true;
+    }
+
+    private void doDeleteSticker() {
+        setWaterMark(null);
+        if (mOnStickerDeleteListener != null) {
+            mOnStickerDeleteListener.onDelete();
+        }
+    }
+
+    //图片水平反转
+    private void doReversalHorizontal(){
+        float[] floats = new float[] { -1f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 1f };
+        Matrix tmpMatrix = new Matrix();
+        tmpMatrix.setValues(floats);
+        mBitmap = Bitmap.createBitmap(mBitmap, 0, 0, mBitmap.getWidth(),
+                mBitmap.getHeight(), tmpMatrix, true);
+        invalidate();
+        mInReversalHorizontal = false;
+    }
+    //图片垂直反转
+    private void doReversalVertical(){
+        float[] floats = new float[] { 1f, 0f, 0f, 0f, -1f, 0f, 0f, 0f, 1f };
+        Matrix tmpMatrix = new Matrix();
+        tmpMatrix.setValues(floats);
+        mBitmap = Bitmap.createBitmap(mBitmap, 0, 0, mBitmap.getWidth(),
+                mBitmap.getHeight(), tmpMatrix, true);
+        invalidate();
+        mInReversalVertical = false;
+    }
+
+
+    private boolean canStickerMove(float cx, float cy) {
+        float px = cx + mPoints[8];
+        float py = cy + mPoints[9];
+        if (mViewRect.contains(px, py)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    private float caculateLength(float x, float y) {
+        float ex = x - mPoints[8];
+        float ey = y - mPoints[9];
+        return (float)Math.sqrt(ex * ex + ey * ey);
+    }
+
+
+    private float rotation(MotionEvent event) {
+        float  originDegree = calculateDegree(mLastPointX, mLastPointY);
+        float nowDegree = calculateDegree(event.getX(), event.getY());
+        return nowDegree - originDegree;
+    }
+
+    private float calculateDegree(float x, float y) {
+        double delta_x = x - mPoints[8];
+        double delta_y = y - mPoints[9];
+        double radians = Math.atan2(delta_y, delta_x);
+        return (float) Math.toDegrees(radians);
     }
 
     public interface OnStickerDeleteListener {

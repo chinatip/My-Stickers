@@ -1,4 +1,4 @@
-package com.example.asus.cameraapp;
+package com.example.asus.cameraapp.functions;
 
 /**
  * Created by Asus on 30/5/2559.

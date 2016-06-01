@@ -21,7 +21,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.example.asus.cameraapp.R;
-import com.example.asus.cameraapp.Save;
+import com.example.asus.cameraapp.functions.Save;
 import com.example.asus.cameraapp.stickers.StickerView;
 
 import java.io.File;
@@ -39,7 +39,6 @@ public class AddStickerActivity extends AppCompatActivity {
     private ImageButton infoButton;
     private static Resources resources;
     private static StickerView stickerView;
-
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

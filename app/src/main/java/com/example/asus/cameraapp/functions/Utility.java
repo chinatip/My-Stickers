@@ -1,4 +1,4 @@
-package com.example.asus.cameraapp;
+package com.example.asus.cameraapp.functions;
 
 import android.Manifest;
 import android.annotation.TargetApi;

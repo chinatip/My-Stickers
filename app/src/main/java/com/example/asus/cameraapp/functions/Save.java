@@ -1,4 +1,4 @@
-package com.example.asus.cameraapp;
+package com.example.asus.cameraapp.functions;
 
 import android.content.Context;
 import android.graphics.Bitmap;

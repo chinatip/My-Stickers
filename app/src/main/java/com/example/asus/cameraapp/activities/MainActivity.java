@@ -5,23 +5,17 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 
 import com.example.asus.cameraapp.R;
-import com.example.asus.cameraapp.Save;
-import com.example.asus.cameraapp.Utility;
+import com.example.asus.cameraapp.functions.Save;
+import com.example.asus.cameraapp.functions.Utility;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class MainActivity extends Activity {
@@ -121,27 +115,7 @@ public class MainActivity extends Activity {
 
     private void onCaptureImageResult(Intent data) {
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-//        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-//        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-/**
-        File folder = new File("/MyStickers");
-        File destination = new File (Environment.getExternalStorageDirectory().getAbsolutePath()+folder,
-                                System.currentTimeMillis() + ".jpg");
-        if(!folder.exists()) folder.mkdirs();
 
-        FileOutputStream fo;
-
-        try {
-            destination.createNewFile();
-            fo = new FileOutputStream(destination);
-            fo.write(bytes.toByteArray());
-            fo.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
- */
         Save saveFile = new Save();
         saveFile.SaveImage(getApplicationContext(), thumbnail);
 
@@ -155,8 +129,6 @@ public class MainActivity extends Activity {
         if (data != null) {
             try {
                 bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
-//                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-//                bm.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
             } catch (IOException e) {
                 e.printStackTrace();
             }

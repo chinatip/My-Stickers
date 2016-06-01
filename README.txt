@@ -4,7 +4,7 @@ Members:
 3. Naphat 5710547191
 4. Parinvut 5710546305
 
-Design Patterns
+:: Design Patterns ::
 
 1. Adapter
 - GridViewAdapter uses for wrap the ImageItem class (which used to store title and path of the Image) to show in GalleryActivity
@@ -24,16 +24,27 @@ Design Patterns
 
 
 
-GRASP
+:: GRASP ::
 Creator
--
-Information Expert
+- In Gallery of sticker and photo(GalleryActivity and ChooseActivity) creates photo in gallery.
+
 Low Coupling
 - Save is only a class that can save images to storage.
-Controller
-High Cohesion
+
 Indirection
-Polymorphism
-- Each time
+- Using adapters(GridViewAdapter,StickerAdapter) to avoid a direct coupling between two or more elements
+
 Protected Variations
-Pure Fabrication
+- Each time creating a gallery, it will call ImageItem or StickerRow for many times. To avoid impact of variations of some
+elements on the other elements, each class of ImageItem and StrickRow contains different path of photo and show it in gallery.
+
+*** BUGS ***
+1. GalleryActivity 
+- This class show other images that is not from this app because we cannot load file into the app. So, we use other images that stored in Drawable instead to show that GalleryActicity can show images.
+
+2. The Quality of the images from this app
+- After we take a photo and edit it in the app, we find some problems that quality is drop from sending it to our app. It might be the way that we transfer the data is not good enough.
+
+3. Sticker
+- Sticker is drawn together with the image in AddStickerActivity.
+- We think that the quality of image is based on the image that we add.

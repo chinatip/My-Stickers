@@ -43,7 +43,7 @@ public class AddStickerActivity extends AppCompatActivity {
     private static StickerView stickerView;
     Originator originator = new Originator();
     CareTaker careTaker = new CareTaker();
-    int countState=-1;
+    int countState=-1,tempCount;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

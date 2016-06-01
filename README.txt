@@ -19,8 +19,8 @@ Design Patterns
 4. Chain of Responsibility
 - In MainActivity, we can either go to Gallery (to choose image to edit or view) or Camera which can take a photo. After that, both action bring to the same page which is Edit photo(EditPhotoActivity) and then add sticker page(AddStickerActivity). All along the way only one more image will be saved (for 1 click). 
 
-5. Template Method
-- In adapter and
+5. Memento
+- In AddStickerActvity, Memento pattern is in reverse button when you click and then you can go back to the last save.
 
 
 

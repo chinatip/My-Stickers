@@ -159,7 +159,7 @@ public class AddStickerActivity extends AppCompatActivity {
         reverseButton = (ImageButton) findViewById(R.id.btn_addS_back);
         reverseButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                if(countState>1)
+                if(countState>=1)
                 countState--;
                 Bitmap bitmapState = careTaker.get(countState).getState();
                 Matrix matrix = new Matrix();

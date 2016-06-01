@@ -133,7 +133,7 @@ public class AddStickerActivity extends AppCompatActivity {
 
                     output = new FileOutputStream(file);
 
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, output);
+                    temp.compress(Bitmap.CompressFormat.PNG, 100, output);
                     output.flush();
                     output.close();
 

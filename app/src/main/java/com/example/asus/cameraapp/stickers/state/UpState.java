@@ -61,7 +61,7 @@ public class UpState implements MotionState {
 
 
     private void doDeleteSticker() {
-        setWaterMark(null);
+        stickerView.setWaterMark(null);
         if (mOnStickerDeleteListener != null) {
             mOnStickerDeleteListener.onDelete();
         }
@@ -96,49 +96,6 @@ public class UpState implements MotionState {
 
     public void setOnStickerDeleteListener(OnStickerDeleteListener listener) {
         stickerView.setOnStickerDeleteListener((StickerView.OnStickerDeleteListener) listener);
-    }
-
-    public void setWaterMark(@NonNull Bitmap bitmap) {
-        mBitmap = bitmap;
-        stickerView.setmStickerScaleSize(1.0f);
-
-
-        stickerView.setFocusable(true);
-        try {
-
-
-            float px = mBitmap.getWidth();
-            float py = mBitmap.getHeight();
-
-
-            //mOriginPoints = new float[]{px, py, px + bitmap.getWidth(), py, bitmap.getWidth() + px, bitmap.getHeight() + py, px, py + bitmap.getHeight()};
-//            mOriginPoints = new float[]{0, 0, px, 0, px, py, 0, py, px / 2, py / 2};
-//            stickerView.setmOriginPoints(mOriginPoints);
-//            mOriginContentRect = new RectF(0, 0, px, py);
-//            stickerView.setmOriginContentRect(mOriginContentRect);
-//            mPoints = new float[10];
-//            stickerView.setmPoints(mPoints);
-//            mContentRect = new RectF();
-//            stickerView.setmContentRect(mContentRect);
-            mMatrix = new Matrix();
-//            stickerView.setmMatrix(mMatrix);
-
-            stickerView.setmOriginPoints(new float[]{0, 0, px, 0, px, py, 0, py, px / 2, py / 2});
-            stickerView.setmOriginContentRect(new RectF(0, 0, px, py));
-            stickerView.setmPoints(new float[10]);
-            stickerView.setmContentRect(new RectF());
-            stickerView.setmMatrix(new Matrix());
-
-            float transtLeft = ((float) DisplayUtil.getDisplayWidthPixels(stickerView.getContext()) - mBitmap.getWidth()) / 2;
-            float transtTop = ((float)DisplayUtil.getDisplayWidthPixels(stickerView.getContext()) - mBitmap.getHeight()) / 2;
-
-            mMatrix.postTranslate(transtLeft, transtTop);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        stickerView.postInvalidate();
-
     }
 
 }

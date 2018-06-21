@@ -1,5 +1,5 @@
 # My Stickers
-My Stickers is a group project for Software Specification course. This application is naitve android application. This application expected to be able to add stickers to pictures and has its gallery. 
+My Stickers is a group project for Software Specification course. This application is native android application. This application expected to be able to add stickers to pictures and has its gallery. 
 
 However, there is some problem with sending file size, we got more poor quality of the picture in each sending.  
 
